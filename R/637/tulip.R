@@ -75,6 +75,7 @@ updateW <- function(b,g){
   w
 }
 
+# Replicate this step in other language
 gibbs <- function(y,X,Z,n=nrow(X),p=ncol(X),k=ncol(Z),B=1e4,burn=round(B*.1),
                  trim.burn=F, U=10*solve(t(X)%*%X), V=10*solve(t(Z)%*%Z)) {
 
