@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#gcc -std=c99 -o testout test.c -lgsl -lgslcblas -lm
+gcc  -o testout test.c -lgsl -lgslcblas
+
