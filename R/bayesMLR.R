@@ -11,7 +11,7 @@ s <- 100
 XXi%*%Xt%*%y
 a <- 1
 b <- 1
-B <- 1e4
+B <- 1e5
 s2 <- 10
 
 det <- function(x,log=F) as.numeric(determinant(x,log=log))[1]
