@@ -2,4 +2,4 @@
 
 #g++ *.cpp -o mlrCPP -O2 -larmadillo
 #g++ *.cpp -o mlrcpp -O2 -I /home/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
-g++ *.cpp -o mlrcpp -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran
+g++ *.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran
