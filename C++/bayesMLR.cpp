@@ -22,6 +22,7 @@ double rnorm(double mu, double sd) {
   double rnorm01 = sqrt(-2.0 * log(u1)) * sin(2.0*pi*u2);
 
   return mu + sd * rnorm01;
+  //return as_scalar(randn(1)*sd+mu);
 }
 
 mat rnorms(int n) {
@@ -30,20 +31,21 @@ mat rnorms(int n) {
     out(i,0) = rnorm(0,1);
   }
   return out;
+  //return randn(n,1);
 }
 
 
 double ll(mat be, double sig2) {
-  mat c, out;
+  mat c(1,k), out(k,1);
 
   c = y-X*be;
-  out = c.t() * c / (-2*sig2);
+  out = (c.t()*c / sig2 + n*log(sig2))/-2;
   
   return as_scalar(out);
 }
 
 double lpb(mat be) {
-  return as_scalar(-s2/2 * be.t() * XXi * be);
+  return as_scalar(-be.t()*XXi*be/(2*s2));
 }
 
 double lps(double sig2) {
@@ -59,7 +61,6 @@ mat mvrnorm(mat M, mat S) {
 
 
 int main(int argc, char** argv) {
-  int i,j;
   mat mle;
 
   //posteriors:
@@ -120,9 +121,9 @@ int main(int argc, char** argv) {
     }
 
     //Update sigma2:
-    cands = rnorm(sc,css);
+    cands = rnorm(sc,sqrt(css));
     if (cands>0){
-      q = ll(bc,cands)+lps(cands) - ll(bc,sc)-lps(sc);
+      q = ll(bc,cands)+lps(cands) -ll(bc,sc)-lps(sc);
       if (q>log(runif())) {
         ss.row(i) = cands;
         accs++;
@@ -130,15 +131,18 @@ int main(int argc, char** argv) {
     }
   }
 
-
-
   cout <<"B: "<<B<<endl;
   cout << "MLE: \n" << mle << endl;
   cout << "Posterior Means Beta: \n" << 
           mean(bb.rows(90000,100000-1)).t()<<endl;
   cout << "Posterior Mean Sigma2: \n" <<
-          mean(ss.rows(90000,100000-1)).t()<<endl;
+          mean(ss.rows(90000,100000-1))<<endl;
   cout << "Beta Acceptance:   "<< 100*accb/B <<"%"<<endl;
   cout << "Sigma2 Acceptance: "<< 100*accs/B <<"%"<<endl;
+  ss.save("s2.txt",raw_ascii);
+
   return 0;
 }
+
+// Why are my acceptance rates so high?
+// Why are my estimates for b0 and sigma2 off?

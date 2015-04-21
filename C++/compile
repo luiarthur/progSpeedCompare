@@ -1,5 +1,5 @@
 #!/bin/bash
 
-#g++ bayesMLR.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran -Wall
-g++ bayesMLR.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran 
+g++ bayesMLR.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran -Wall
+#g++ bayesMLR.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran 
 

@@ -3,6 +3,7 @@ dat <- as.matrix(read.table("../data/dat.txt"))
 y <- dat[,1]
 X <- dat[,-1]
 k <- ncol(X)
+n <- length(y)
 colnames(X) <- paste0("b",0:9)
 Xt <- t(X)
 XXi <- solve(Xt%*%X)
@@ -15,8 +16,9 @@ B <- 1e5
 s2 <- 10
 
 det <- function(x,log=F) as.numeric(determinant(x,log=log))[1]
-ll <- function(be,sig2) sum(dnorm(y,X%*%be,sqrt(sig2),log=T))
-lpb <- function(be) -5*t(be)%*%XXi%*%be
+#ll <- function(be,sig2) sum(dnorm(y,X%*%be,sqrt(sig2),log=T))
+ll <- function(be,sig2) t(y-X%*%be)%*%(y-X%*%be)/(-2*sig2) - n/2*log(sig2)
+lpb <- function(be) -t(be)%*%XXi%*%be/(s2*2)
 lps <- function(sig2) (a-1)*log(sig2)-sig2/b
 mvrnorm <- function(M,S,n=nrow(S)) M + t(chol(S)) %*% rnorm(n)
 
@@ -28,6 +30,7 @@ acc.s <- 0
 b.hat <- matrix(0,B,k)
 s2.hat <- rep(1,B)
 
+r.time <- system.time(
 for (i in 2:B) {
   b.hat[i,] <- b.hat[i-1,]
   s2.hat[i] <- s2.hat[i-1]
@@ -52,10 +55,17 @@ for (i in 2:B) {
 
   cat(paste0("\r",round(100*i/B),"%"))
 }
+)
+
+cpp.time<-system.time(system("cd ../C++; ./mlr"))
+r.time[3]/cpp.time[3]
+
 
 print(paste0(100*acc.b/B,"%"))
 print(paste0(100*acc.s/B,"%"))
 
-plot(s2.hat)
+plot(s2.hat[90000:100000],type="l")
 print(mean(s2.hat[90000:100000]))
 print(apply(b.hat[90000:100000,],2,mean))
+
+
