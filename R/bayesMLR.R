@@ -57,5 +57,5 @@ print(paste0(100*acc.b/B,"%"))
 print(paste0(100*acc.s/B,"%"))
 
 plot(s2.hat)
-print(mean(s2.hat))
-print(apply(b.hat,2,mean))
+print(mean(s2.hat[90000:100000]))
+print(apply(b.hat[90000:100000,],2,mean))
