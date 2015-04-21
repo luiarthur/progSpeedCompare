@@ -61,11 +61,9 @@ cpp.time<-system.time(system("cd ../C++; ./mlr"))
 r.time[3]/cpp.time[3]
 
 
-print(paste0(100*acc.b/B,"%"))
-print(paste0(100*acc.s/B,"%"))
-
-plot(s2.hat[90000:100000],type="l")
-print(mean(s2.hat[90000:100000]))
-print(apply(b.hat[90000:100000,],2,mean))
-
-
+#print(paste0(100*acc.b/B,"%"))
+#print(paste0(100*acc.s/B,"%"))
+#
+#plot(s2.hat[90000:100000],type="l")
+#print(mean(s2.hat[90000:100000]))
+#print(apply(b.hat[90000:100000,],2,mean))

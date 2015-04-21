@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
           mean(ss.rows(90000,100000-1))<<endl;
   cout << "Beta Acceptance:   "<< 100*accb/B <<"%"<<endl;
   cout << "Sigma2 Acceptance: "<< 100*accs/B <<"%"<<endl;
-  ss.save("s2.txt",raw_ascii);
+  //ss.save("s2.txt",raw_ascii);
 
   return 0;
 }
