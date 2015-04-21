@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p class
+scalac -cp /data/arthurll/scala/arthurLib/class/:/data/arthurll/arthurPackages/scala -d class *.scala
