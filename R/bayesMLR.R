@@ -53,8 +53,8 @@ for (i in 2:B) {
   cat(paste0("\r",round(100*i/B),"%"))
 }
 
-print(acc.b/B)
-print(acc.s/B)
+print(paste0(100*acc.b/B,"%"))
+print(paste0(100*acc.s/B,"%"))
 
 plot(s2.hat)
 print(mean(s2.hat))
