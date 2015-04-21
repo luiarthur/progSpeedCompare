@@ -10,7 +10,6 @@ mat z,X,y,XXi,Xt;
 const double a=1;
 const double b=1;
 const int B=pow(10,5);
-//const int B=pow(10,2);
 const double s2 = 10;
 
 double runif(){
@@ -112,7 +111,7 @@ int main(int argc, char** argv) {
     sc = as_scalar(ss.row(i));
 
     //Update Beta:
-    candb = mvrnorm(bb.row(i).t(),csb);
+    candb = mvrnorm(bc,csb);
     q = ll(candb,sc)+lpb(candb) -ll(bc,sc)-lpb(bc);
     if (q>log(runif())) {
       bc = candb;
@@ -135,12 +134,11 @@ int main(int argc, char** argv) {
 
   cout <<"B: "<<B<<endl;
   cout << "MLE: \n" << mle << endl;
+  cout << "Posterior Means Beta: \n" << 
+          mean(bb.rows(90000,100000-1)).t()<<endl;
+  cout << "Posterior Mean Sigma2: \n" <<
+          mean(ss.rows(90000,100000-1)).t()<<endl;
   cout << "Beta Acceptance:   "<< 100*accb/B <<"%"<<endl;
   cout << "Sigma2 Acceptance: "<< 100*accs/B <<"%"<<endl;
-  cout << "Posterior Means Beta: \n" << mle << endl;
-  cout <<mean(bb.rows(90000-1,100000-1)).t()<<endl;
-  cout << "Posterior Mean Sigma2: \n" << mle << endl;
-  cout <<mean(ss.rows(90000-1,100000-1)).t()<<endl;
-
   return 0;
 }
