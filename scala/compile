@@ -1,6 +1,2 @@
 #!/bin/bash
-
-mkdir -p class
-#scalac -cp /data/arthurll/scala/arthurLib/class/:/data/arthurll/arthurPackages/scala -d class *.scala
-#scalac -cp /data/arthurll/scala/arthurLib/class/breeze/breeze -d class *.scala
-scalac  -d class bayesMLR.scala
+sbt ~run # ~run compiles and runs like vulture

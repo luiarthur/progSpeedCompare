@@ -1,4 +1,0 @@
-#!/bin/bash
-# Use colon to make a list of class paths to search for different classes
-
-scala -cp /data/arthurll/scala/arthurLib/class/:class bayesMLR

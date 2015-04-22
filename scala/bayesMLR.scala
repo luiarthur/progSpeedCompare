@@ -9,13 +9,7 @@ import scala.util.Random
 
 // put breeze.jar in the scala lib
 import breeze.linalg._
-import breeze.linalg.norm
-import breeze.linalg.DenseMatrix
-import breeze.linalg.DenseVector
-import breeze.linalg.operators.DenseVectorOps
-import stats.regression._
-//import breeze.numerics._
-import breeze.io._
+import breeze.numerics._
 import breeze.stats.distributions._
 
 object bayesMLR{
