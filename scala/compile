@@ -1,2 +1,16 @@
 #!/bin/bash
+
+# sbt is used for building scala projects. 
+
+#  To install SBT, 
+#  Download sbt from here:
+#    http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt/0.12.4/sbt.tgz
+#    - Unpack the archive to a directory of your choice 
+#    - Add the bin/ directory to the PATH environment variable. Open the file ~/.bashrc in an editor (create it if
+#      it doesn’t exist) and add the following line: export PATH=/PATH/TO/YOUR/sbt/bin:$PATH 
+#    
+#    Verify that sbt is installed correctly: Open a new terminal (to apply the
+#    changed .bashrc) and type sbt -h, you should see a help message from sbt.
+#    If you have problems installing sbt, ask for help on the forums.
+
 sbt ~run # ~run compiles and runs like vulture
