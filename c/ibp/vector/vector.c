@@ -3,6 +3,7 @@
  
 #include "vector.h"
  
+/*
 void vector_init(vector *v)
 {
   v->data = NULL;
@@ -79,6 +80,7 @@ void vector_free(vector *v)
 {
   free(v->data);
 }
+*/ 
  
 //* Example
 int main(void)
