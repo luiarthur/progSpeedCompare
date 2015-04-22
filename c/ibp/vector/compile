@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcc -o vector vector.c
+gcc -std=c99 -o vector vector.c -Wall

@@ -41,6 +41,7 @@ void ribp(int* n, int* x, double* a, int* z) {
 */
 
 int main(void) {
+  /*
   vector v;
   vector_init(&v);
 
@@ -53,6 +54,6 @@ int main(void) {
   for (int i=0; i<vector_count(&v); i++){
     printf("%s\n", vector_get(&v,i));
   }  
-  
+  */
   return 0;
 }
