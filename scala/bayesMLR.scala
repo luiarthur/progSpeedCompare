@@ -14,11 +14,15 @@ import breeze.stats.distributions._
 
 object bayesMLR{
   val afile = new File("temp.csv")
-  //val m = breeze.linalg.csvread(afile)
+  val m = breeze.linalg.csvread(afile)
 
   val x = DenseMatrix.ones[Double](5,1)
-  //val y = Gaussian(0,1).sample(20)
-  //val v = DenseVector(y.toArray)
+  val y = Gaussian(0,1).sample(20)
+  val v = DenseVector(y.toArray)
+  
+  def main(args: Array[String]) = {
+    println(m)
+    println()
+    println(x)
+  }
 }
-
-
