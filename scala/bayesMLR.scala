@@ -3,7 +3,7 @@
 
 import scala.io.Source
 import java.io.File // write to file. new File("file.txt")
-import util.Random
+import scala.util.Random
 import breeze.linalg._ // put breeze.jar in the scala lib
 import breeze.numerics._
 import breeze._
