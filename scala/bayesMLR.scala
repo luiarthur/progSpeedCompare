@@ -1,6 +1,7 @@
 //https://github.com/scalanlp/breeze/wiki/Linear-Algebra-Cheat-Sheet
 //http://www.scalanlp.org/api/breeze/index.html#breeze.linalg.package
 //https://github.com/scalanlp/breeze/wiki/Installation
+//http://www.scala-sbt.org/0.12.2/docs/Getting-Started/Hello.html
 
 import scala.io.Source
 import java.io.File // write to file. new File("file.txt")
