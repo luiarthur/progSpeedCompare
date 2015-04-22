@@ -41,13 +41,13 @@ void ribp(int* n, int* x, double* a, int* z) {
 */
 
 int main(void) {
-  vector* v;
-  vector_init(v);
+  vector v;
+  vector_init(&v);
 
-  vector_add(v,1);
-  vector_add(v,3);
-  vector_add(v,2);
-  vector_add(v,4);
+  vector_add(&v,1);
+  vector_add(&v,3);
+  vector_add(&v,2);
+  vector_add(&v,4);
 
   printf("First Round:\n");
   for (int i=0; i<vector_count(&v); i++){
