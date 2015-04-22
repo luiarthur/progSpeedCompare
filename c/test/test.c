@@ -2,6 +2,7 @@
 #include <gsl/gsl_linalg.h>
 
 int main (void) {
+
   double a_data[] = { 0.18, 0.60, 0.57, 0.96,
                       0.41, 0.24, 0.99, 0.58,
                       0.14, 0.30, 0.97, 0.66,

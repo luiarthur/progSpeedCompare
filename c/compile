@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# -lm for math.h
+# -lsgl/-lgslcblas for gsl/*.h
+
+gcc  -std=c99 -o mlr bayesMLR.c -lgsl -lgslcblas -lm -w
