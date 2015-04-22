@@ -1,20 +1,29 @@
 //https://github.com/scalanlp/breeze/wiki/Linear-Algebra-Cheat-Sheet
 //http://www.scalanlp.org/api/breeze/index.html#breeze.linalg.package
+//https://github.com/scalanlp/breeze/wiki/Installation
 
 import scala.io.Source
 import java.io.File // write to file. new File("file.txt")
 import scala.util.Random
-import breeze.linalg._ // put breeze.jar in the scala lib
-import breeze.numerics._
-import breeze._
-//import mybreeze.breeze.linalg._
-//import mybreeze.breeze.linalg.DenseVector
+
+// put breeze.jar in the scala lib
+import breeze.linalg._
+import breeze.linalg.norm
+import breeze.linalg.DenseMatrix
+import breeze.linalg.DenseVector
+import breeze.linalg.operators.DenseVectorOps
+import stats.regression._
+//import breeze.numerics._
+import breeze.io._
+import breeze.stats.distributions._
 
 object bayesMLR{
-  val file = new File("temp.csv")
-  val m = breeze.linalg.csvread(file)
+  val afile = new File("temp.csv")
+  //val m = breeze.linalg.csvread(afile)
 
-  val x = DenseVector.zeros[Double](5)
+  val x = DenseMatrix.ones[Double](5,1)
+  //val y = Gaussian(0,1).sample(20)
+  //val v = DenseVector(y.toArray)
 }
 
 
