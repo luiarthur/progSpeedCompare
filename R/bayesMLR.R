@@ -77,8 +77,8 @@ plot(code.len,times,type="l",col="grey30",lwd=5,
      xlab="Lines of Code (Codeing Time or Coding Efficiency)",
      ylab="Execution Time")
 points(code.len,times,col=2:4,pch=20,cex=3)
-legend("topright",legend=c("BLQ: BEST","BRQ: fast but long",
-                           "ULQ: Slow but short","URQ: slow and long (WORST)"))
+legend("topright",legend=c("BLQ: BEST","BRQ: Fast but Long",
+                           "ULQ: Slow but Short","URQ: Slow and Long (WORST)"))
 par(mfrow=c(1,1))
 
 
