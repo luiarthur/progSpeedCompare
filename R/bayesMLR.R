@@ -65,13 +65,15 @@ times <- round(c(cpp.time,scala.time,r.time)/cpp.time,3)
 
 code.len <- c(155,126,60)
 
-par(mfrow=c(2,1))
+par(mfrow=c(3,1))
 barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
        legend.text=times,col=2:4, args.legend=list(x="topleft"),
        main="Bayesian Multiple Linear Regression Speed Race")
 barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","R"),
        legend.text=code.len,col=2:4, args.legend=list(x="topright"),
        main="Bayesian Multiple Linear Regression Conciseness Test")
+plot(code.len,times,type="l",col="grey30",lwd=5)
+points(code.len,times,col=2:4,pch=20,cex=3)
 par(mfrow=c(1,1))
 
 
