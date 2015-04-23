@@ -60,7 +60,7 @@ object bayesMLR{
   }
 
   def lpb(be: DenseVector[Double]): Double = {
-    be.t*XXi*be / (-2*s2)
+    be.t*XXi*be / (-2.0*s2)
   }
   
   def lps(sig2: Double): Double = {
@@ -76,7 +76,7 @@ object bayesMLR{
   }
 
   def main(args: Array[String]) = {
-    println(); println(); println(); println(); println(); println();
+    (1 to 10).foreach(s => println())
     println("Starting...") // Takes about 2 seconds to compile, and 6 seconds to run.
     val t1 = System.currentTimeMillis / 1000.0
       // current values:
@@ -109,14 +109,16 @@ object bayesMLR{
             accs = accs + 1
           }
         }
+        //print("\rProgress: "+round(i*100.0/B,0)+"%")//This slows down by half the time
       }
     val t2 = System.currentTimeMillis / 1000.0
-    println()
-    println("Runtime: "+round(t2-t1,3))
+    println("Runtime: "+round(t2-t1,3)+"\n")
     println("Acceptance beta: "+1.0*accb/B)
-    println("Acceptance sig2: "+1.0*accs/B)
-    println("Posterior beta: \n"+(sum(bb(::,*)).t / (B*1.0)))
+    println("Acceptance sig2: "+1.0*accs/B+"\n")
     println("Posterior sig2: "+round(sum(ss) / (B*1.0)))
+    println("Posterior beta:")
+    (sum(bb(::,*)).t / (B*1.0)).toArray.foreach(s => println("\t"+s))
+    println()
   }
 }
 // TO launch REPL:

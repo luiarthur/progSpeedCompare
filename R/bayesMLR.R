@@ -58,7 +58,13 @@ for (i in 2:B) {
 )
 
 cpp.time<-system.time(system("cd ../C++; ./mlr"))
-r.time[3]/cpp.time[3]
+scala.time <- 9.687
+r.time <- r.time[3]
+cpp.time <- cpp.time[3]
+times <- round(c(cpp.time,scala.time,r.time)/cpp.time,3)
+barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
+       legend.text=times,col=2:4, args.legend=list(x="topleft"),
+       main="Bayesian Multiple Linear Regression Speed Race")
 
 
 #print(paste0(100*acc.b/B,"%"))

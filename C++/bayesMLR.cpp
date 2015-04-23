@@ -1,5 +1,6 @@
 #include <iostream>
 #include <armadillo>
+#include <ctime>
 
 using namespace std;
 using namespace arma;
@@ -103,6 +104,8 @@ int main(int argc, char** argv) {
   bb.zeros();
   ss.ones();
 
+  cout << "Starting Metropolis:" <<endl;
+  clock_t t1 = clock();
   for (int i=1; i<B; i++) {
     // Set Initial Values:
     bb.row(i) = bb.row(i-1); 
@@ -129,20 +132,24 @@ int main(int argc, char** argv) {
         accs++;
       }
     }
+    
+    cout << "\r" << i*100/B <<"%";
   }
+  clock_t t2 = clock();
+  double elapsed = double(t2-t1) / CLOCKS_PER_SEC;
+  cout << "Elapsed Time: " <<elapsed<<"s. \n"<<endl;
 
-  cout <<"B: "<<B<<endl;
-  cout << "MLE: \n" << mle << endl;
+  //cout <<"B: "<<B<<endl;
+  //cout << "MLE: \n" << mle << endl;
+
   cout << "Posterior Means Beta: \n" << 
           mean(bb.rows(90000,100000-1)).t()<<endl;
   cout << "Posterior Mean Sigma2: \n" <<
           mean(ss.rows(90000,100000-1))<<endl;
   cout << "Beta Acceptance:   "<< 100*accb/B <<"%"<<endl;
   cout << "Sigma2 Acceptance: "<< 100*accs/B <<"%"<<endl;
+  cout <<endl;
   //ss.save("s2.txt",raw_ascii);
 
   return 0;
 }
-
-// Why are my acceptance rates so high?
-// Why are my estimates for b0 and sigma2 off?
