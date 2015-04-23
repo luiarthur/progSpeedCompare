@@ -44,5 +44,5 @@ func main() {
 	fmt.Println(m.NewDense(3, 3, []float64{0, 0, 0, 0, 0, 0, 0, 0, 0}))
 	fmt.Println(m.NewDense(5, 4, v))
 	fmt.Println(matrix(3, 5))
-	m.Format(matrix(3, 5), 1, '.', '?', 'v')
+	//m.Format(matrix(3, 5), 1, '.', '?', 'v')//how do i print matrices?
 }
