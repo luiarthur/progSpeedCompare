@@ -72,8 +72,13 @@ barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
 barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","R"),
        legend.text=code.len,col=2:4, args.legend=list(x="topright"),
        main="Bayesian Multiple Linear Regression Conciseness Test")
-plot(code.len,times,type="l",col="grey30",lwd=5)
+plot(code.len,times,type="l",col="grey30",lwd=5,
+     main="Speed vs. Code Length Tradeoff",
+     xlab="Lines of Code (Codeing Time or Coding Efficiency)",
+     ylab="Execution Time")
 points(code.len,times,col=2:4,pch=20,cex=3)
+legend("topright",legend=c("BLQ: BEST","BRQ: fast but long",
+                           "ULQ: Slow but short","URQ: slow and long (WORST)"))
 par(mfrow=c(1,1))
 
 
