@@ -62,9 +62,17 @@ scala.time <- 9.687
 r.time <- r.time[3]
 cpp.time <- cpp.time[3]
 times <- round(c(cpp.time,scala.time,r.time)/cpp.time,3)
+
+code.len <- c(155,126,60)
+
+par(mfrow=c(2,1))
 barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
        legend.text=times,col=2:4, args.legend=list(x="topleft"),
        main="Bayesian Multiple Linear Regression Speed Race")
+barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","R"),
+       legend.text=code.len,col=2:4, args.legend=list(x="topright"),
+       main="Bayesian Multiple Linear Regression Speed Race")
+par(mfrow=c(1,1))
 
 
 #print(paste0(100*acc.b/B,"%"))
