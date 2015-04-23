@@ -71,7 +71,7 @@ barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
        main="Bayesian Multiple Linear Regression Speed Race")
 barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","R"),
        legend.text=code.len,col=2:4, args.legend=list(x="topright"),
-       main="Bayesian Multiple Linear Regression Speed Race")
+       main="Bayesian Multiple Linear Regression Conciseness Test")
 par(mfrow=c(1,1))
 
 
