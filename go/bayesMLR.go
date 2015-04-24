@@ -40,11 +40,31 @@ func main() {
 	t1 := time.Now()
 	dat := my.ReadMatrix("../data/dat.txt")
 	t2 := time.Now()
-	my.PrintMatrix(dat)
-
-	//readtimes := strconv.FormatFloat((t2.Sub(t1)).Seconds(), 'f', 2, 32)
 	readtime := (t2.Sub(t1)).Seconds()
 
+	n, k := dat.Caps()
+	k = k - 1
+
+	X := dat.View(0, 1, n, k)
+	//fmt.Print(X)
+	y := dat.View(0, 0, n, 1)
+	//fmt.Println(y)
+	//yy := my.M0(1, 1)
+	//yy.MulTrans(y, true, y, false)
+	//fmt.Println(yy)
+
+	yx := my.M0(1, k)
+	yx.MulTrans(y, true, X, false)
+	xy := my.M0(k, 1)
+	//fmt.Println(yx)
+	xy.TCopy(&yx)
+	my.PrintMatrix(xy)
+
+	fmt.Println()
+	//fmt.Print(X)
+	//fmt.Print(y)
+	fmt.Println("Rows in dataset:", n)
+	fmt.Println("Columns in dataset:", k+1)
 	fmt.Printf("Time taken to read data:  %f%s", readtime, "s")
 	fmt.Println()
 
