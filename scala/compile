@@ -13,13 +13,13 @@
 #    changed .bashrc) and type sbt -h, you should see a help message from sbt.
 #    If you have problems installing sbt, ask for help on the forums.
 
-sbt ~compile # ~compile compiles like vulture
+#sbt ~compile # ~compile compiles like vulture
+#sbt ~run # ~run runs like vulture
 
+sbt ~package # allows you to package your work like vulture
 ##############################################
-# sbt ~package allows you to package your work
 # After packaging, the .jar will be in 
 #   target/scala-2.10
 # Then you can do 
 # $ scala -cp whatever.jar mainclass "$@"
 # to run your code.
-#sbt ~run # ~run runs like vulture
