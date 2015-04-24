@@ -5,44 +5,52 @@
 package main
 
 import (
+	//"bufio" // Readmatrix
 	"fmt"
-	m "github.com/gonum/matrix/mat64"
+	//"github.com/gonum/matrix/mat64"
+	//"github.com/gonum/blas/blas64"
+	my "github.com/myStat"
+	//"io"        // Readmatrix
+	//"io/ioutil" // Readmatrix
+	//"strconv"   // Readmatrix
 )
 
-func matrix(row, col int) m.Dense {
-	v := make([]float64, row*col)
-	M := m.NewDense(row, col, v)
-	return *M
+/*
+func Readmatrix(r io.Reader) mat64.Dense {
+	scanner := bufio.NewScanner(r)
+	scanner.Split(bufio.ScanWords)
+	var result mat64.Dense
+	for scanner.Scan() {
+		x, err := strconv.Atoi(scanner.Text())
+		if err != nil {
+			return result, err
+		}
+		result = append(result, x)
+	}
+	return result
 }
+*/
 
 func main() {
+	m0 := my.M0(5, 3)
+	m1 := my.M0(5, 3)
+	my.PrintMatrix(m0)
+	fmt.Println(m1) // m1 is of Type mat64.Dense
+
+	//v := make([]float64, 10)
+	//var a mat64.MulTranser
+
+	//a.MulTrans(&m0, true, &m1, false)
+	//fmt.Println(a.MulTrans(m0, true, m1, false))
+	//fmt.Println(a)
+
+	//fmt.Printf("%T", A)
+	//my.PrintMatrix(A)
+
 	/*
-		row := make([]float64, 3)
-		for i := 0; i < 3; i++ {
-			row[i] = .1
-		}
-
-		ma := make([][]float64, 3)
-		for i := 0; i < 3; i++ {
-			ma[i] = row
-		}
-		fmt.Println(ma)
+		dat, _ := ioutil.ReadFile("../data/dat.txt")
+		fmt.Printf("%T", dat)
 	*/
-
-	/*
-		var b m.Dense
-		fmt.Println("b", b)
-		var c m.Matrix
-		fmt.Println("c", c)
-		d := m.NewDense
-		fmt.Println("d", d)
-	*/
-
-	n := 20
-	v := make([]float64, n)
-
-	fmt.Println(m.NewDense(3, 3, []float64{0, 0, 0, 0, 0, 0, 0, 0, 0}))
-	fmt.Println(m.NewDense(5, 4, v))
-	fmt.Println(matrix(3, 5))
-	m.Format(matrix(3, 5), 1, '.', '?', 'v')
+	//fmt.Print(string(dat))
+	fmt.Println()
 }
