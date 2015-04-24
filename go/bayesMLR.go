@@ -10,7 +10,7 @@ import (
 	//"github.com/gonum/matrix/mat64"
 	//"github.com/gonum/blas/blas64"
 	my "github.com/myStat"
-	"strconv"
+	//"strconv"
 	"time"
 )
 
@@ -40,10 +40,12 @@ func main() {
 	t1 := time.Now()
 	dat := my.ReadMatrix("../data/dat.txt")
 	t2 := time.Now()
-	readtime := strconv.FormatFloat((t2.Sub(t1)).Seconds(), 'f', 2, 32)
-
 	my.PrintMatrix(dat)
-	fmt.Println("Time taken to read data: " + readtime + "s")
+
+	//readtimes := strconv.FormatFloat((t2.Sub(t1)).Seconds(), 'f', 2, 32)
+	readtime := (t2.Sub(t1)).Seconds()
+
+	fmt.Printf("Time taken to read data:  %f%s", readtime, "s")
 	fmt.Println()
 
 }
