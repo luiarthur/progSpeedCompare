@@ -40,9 +40,10 @@ func main() {
 	//v := make([]float64, 10)
 	//var a mat64.MulTranser
 
-	//a.MulTrans(&m0, true, &m1, false)
-	//fmt.Println(a.MulTrans(m0, true, m1, false))
-	//fmt.Println(a)
+	//var a mat64.MulTranser
+	a := my.M0(3, 3)
+	a.MulTrans(&m0, true, &m1, false)
+	fmt.Println(a)
 
 	//fmt.Printf("%T", A)
 	//my.PrintMatrix(A)
