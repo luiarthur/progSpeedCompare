@@ -10,9 +10,8 @@ import (
 	//"github.com/gonum/matrix/mat64"
 	//"github.com/gonum/blas/blas64"
 	my "github.com/myStat"
-	//"io"        // Readmatrix
-	//"io/ioutil" // Readmatrix
-	//"strconv"   // Readmatrix
+	"strconv"
+	"time"
 )
 
 /*
@@ -32,26 +31,19 @@ func Readmatrix(r io.Reader) mat64.Dense {
 */
 
 func main() {
-	m0 := my.M0(5, 3)
-	m1 := my.M0(5, 3)
-	my.PrintMatrix(m0)
-	fmt.Println(m1) // m1 is of Type mat64.Dense
 
-	//v := make([]float64, 10)
-	//var a mat64.MulTranser
+	//a := my.M0(3, 3)
+	//a.MulTrans(&m0, true, &m1, false)
+	//fmt.Println(a)
 
-	//var a mat64.MulTranser
-	a := my.M0(3, 3)
-	a.MulTrans(&m0, true, &m1, false)
-	fmt.Println(a)
-
-	//fmt.Printf("%T", A)
-	//my.PrintMatrix(A)
-
-	/*
-		dat, _ := ioutil.ReadFile("../data/dat.txt")
-		fmt.Printf("%T", dat)
-	*/
-	//fmt.Print(string(dat))
 	fmt.Println()
+	t1 := time.Now()
+	dat := my.ReadMatrix("../data/dat.txt")
+	t2 := time.Now()
+	readtime := strconv.FormatFloat((t2.Sub(t1)).Seconds(), 'f', 2, 32)
+
+	my.PrintMatrix(dat)
+	fmt.Println("Time taken to read data: " + readtime + "s")
+	fmt.Println()
+
 }
