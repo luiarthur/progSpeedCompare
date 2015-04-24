@@ -46,12 +46,7 @@ func main() {
 	k = k - 1
 
 	X := dat.View(0, 1, n, k)
-	//fmt.Print(X)
 	y := dat.View(0, 0, n, 1)
-	//fmt.Println(y)
-	//yy := my.M0(1, 1)
-	//yy.MulTrans(y, true, y, false)
-	//fmt.Println(yy)
 
 	yx := my.M0(1, k)
 	yx.MulTrans(y, true, X, false)
