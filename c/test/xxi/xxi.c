@@ -36,10 +36,14 @@ int main(void) {
 
   gsl_vector_view y = gsl_vector_view_array(y_dat,n);
   gsl_matrix_view X = gsl_matrix_view_array(X_dat,n,k);
+  //gsl_vector_fprintf(stdout,y,"%g");
 
   gsl_matrix *Xt  = gsl_matrix_alloc(k,n);
   gsl_matrix_transpose_memcpy(Xt,&X.matrix);
 
+  
+  gsl_matrix_fprintf(stdout,Xt,"%g");
+  /*
   gsl_matrix *XX  = gsl_matrix_calloc(k,k);
   gsl_matrix *XXi = gsl_matrix_calloc(k,k);
 
@@ -64,5 +68,6 @@ int main(void) {
   //gsl_matrix_fprintf(stdout,Xt,"%g");
   //gsl_matrix_free(b);
   gsl_vector_free(b);
+  */
   return 0;
 }
