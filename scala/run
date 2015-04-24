@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "Starting..."
-scala -cp target/scala-2.10/mlr_2.10-0.1-SNAPSHOT.jar: bayesMLR
+scala -cp target/scala-2.10/mlr_2.10-0.1-SNAPSHOT.jar:$SCALA_HOME/lib/breeze_2.10-0.10.jar bayesMLR
 echo "Done."

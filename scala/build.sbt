@@ -14,6 +14,6 @@ resolvers ++= Seq(
 )
 
 // Scala 2.9.2 is still supported for 0.2.1, but is dropped afterwards.
-scalaVersion := "2.10.2"
+scalaVersion := "2.11.6"
 
 //version := 1.0

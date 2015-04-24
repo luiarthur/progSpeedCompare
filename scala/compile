@@ -14,7 +14,10 @@
 #    If you have problems installing sbt, ask for help on the forums.
 
 sbt ~compile # ~compile compiles like vulture
-# After compiling, the .jar will be in 
+
+##############################################
+# sbt ~package allows you to package your work
+# After packaging, the .jar will be in 
 #   target/scala-2.10
 # Then you can do 
 # $ scala -cp whatever.jar mainclass "$@"
