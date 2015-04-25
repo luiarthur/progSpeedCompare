@@ -58,25 +58,26 @@ for (i in 2:B) {
 )
 
 cpp.time<-system.time(system("cd ../C++; ./mlr"))
-scala.time <- 9.687
+scala.time <- 7
 r.time <- r.time[3]
 cpp.time <- cpp.time[3]
-times <- round(c(cpp.time,scala.time,r.time)/cpp.time,3)
+julia.time <- 9
+times <- round(c(cpp.time,scala.time,julia.time,r.time)/cpp.time,3)
 
-code.len <- c(155,126,60)
+code.len <- c(155,126,65,60)
 
 par(mfrow=c(3,1))
-barplot(times,ylab="seconds",names.arg=c("C++","Scala","R"),
-       legend.text=times,col=2:4, args.legend=list(x="topleft"),
+barplot(times,ylab="seconds",names.arg=c("C++","Scala","Julia","R"),
+       legend.text=times,col=2:5, args.legend=list(x="topleft"),
        main="Bayesian Multiple Linear Regression Speed Race")
-barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","R"),
-       legend.text=code.len,col=2:4, args.legend=list(x="topright"),
+barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","Julia","R"),
+       legend.text=code.len,col=2:5, args.legend=list(x="topright"),
        main="Bayesian Multiple Linear Regression Conciseness Test")
 plot(code.len,times,type="l",col="grey30",lwd=5,
      main="Speed vs. Code Length Tradeoff",
      xlab="Lines of Code (Codeing Time or Coding Efficiency)",
      ylab="Execution Time")
-points(code.len,times,col=2:4,pch=20,cex=3)
+points(code.len,times,col=2:5,pch=20,cex=3)
 legend("topright",legend=c("BLQ: BEST","BRQ: Fast but Long",
                            "ULQ: Slow but Short","URQ: Slow and Long (WORST)"))
 par(mfrow=c(1,1))
