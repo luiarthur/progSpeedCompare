@@ -17,7 +17,7 @@ double runif(){
   return (double) rand() / (RAND_MAX); 
 }
 
-// If I ever need to sample normals on my own...
+// If I ever need to sample normals on my own... 
 double rnorm(double mu, double sd) {
   double u1 = runif();
   double u2 = runif();
