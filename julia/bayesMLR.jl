@@ -45,14 +45,12 @@ bb = Array(Float64,(k,B))
 ss = Array(Float64,B)
 
 bcur = bb[:,1]
-scur = ss[1]
+scur = 1.0
 r = log(rand(B*2))
 rnorm = randn(B)
 println("Starting Metropolis...")
 #@time @fastmath for i in 1:B
 @time for i in 1:B
-  @inbounds bb[:,i] = bcur
-  @inbounds ss[i]  = scur
 
   # Update β̂: 
   candb = mvrnorm(bcur)
@@ -73,12 +71,15 @@ println("Starting Metropolis...")
     end
   end
 
-  prog = round(100.0*i/B)
-  #print("\r",prog,"%") #this doubles the time
+  @inbounds bb[:,i] = bcur
+  @inbounds ss[i]  = scur
+
+  if i%(B/10)==0 print("\r",round(100*i/B),"%") end
 end
+println("End of Metropolis.\n\n")
 
-println(mean(bb,2))
-println(mean(ss))
+println("β̂:", mean(bb[:,90000:100000],2),"\n")
+println("ŝ²:", mean(ss[90000:100000]),"\n")
 
-println(accb/B)
-println(accs/B)
+println("Acceptance rate for β̂: ",accb/B)
+println("Acceptance rate for ŝ²:",accs/B)
