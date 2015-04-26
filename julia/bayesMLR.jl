@@ -5,7 +5,7 @@
 #ta = 1:size(X,2); (ta .!= 3) & (ta .!= 5)
 #blas_set_num_thread(8)
 
-println("Loading packages...")
+println("Loading packages (20 seconds)...")
 #using DataFrames
 #using Distributions
 #using Gadfly
@@ -44,11 +44,8 @@ function mh(B=100000)
   accb = 0; accs = 0
   bb = Array(Float64,(k,B))
   ss = Array(Float64,B)
-
   bcur = bb[:,1]
   scur = 1.0
-  r = log(rand(B*2))
-  rnorm = randn(B)
 
   println("Starting Metropolis...")
   #@time @fastmath for i in 1:B
@@ -57,17 +54,16 @@ function mh(B=100000)
     # Update β̂: 
     candb = mvrnorm(bcur)
     q = ll(candb,scur)+lpb(candb) -ll(bcur,scur)-lpb(bcur)
-    if q[1]>r[i] 
+    if q[1]>log(rand())
       bcur = candb
       accb += 1
     end
 
     # Update ŝ²:
-    #cands = rand(Normal(scur,sqrt(css)))
-    cands = rnorm[i]*sqrt(css)+scur
+    cands = rand(Normal(scur,sqrt(css)))
     if cands>0
       q = ll(bcur,cands)+lps(cands) -ll(bcur,scur)-lps(scur)
-      if q[1]>r[i+B]
+      if q[1]>log(rand())
         scur = cands
         accs += 1
       end
