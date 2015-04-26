@@ -13,30 +13,6 @@ const double b=1;
 const int B=pow(10,5);
 const double s2 = 10;
 
-double runif(){
-  return (double) rand() / (RAND_MAX); 
-}
-
-// If I ever need to sample normals on my own... 
-double rnorm(double mu, double sd) {
-  double u1 = runif();
-  double u2 = runif();
-  double rnorm01 = sqrt(-2.0 * log(u1)) * sin(2.0*pi*u2);
-
-  return mu + sd * rnorm01;
-  //return as_scalar(randn(1)*sd+mu);
-}
-
-mat rnorms(int n) {
-  mat out(n,1);
-  for (int i=0; i<n; i++) {
-    out(i,0) = rnorm(0,1);
-  }
-  return out;
-  //return randn(n,1);
-}
-
-
 double ll(mat be, double sig2) {
   mat c(1,k), out(k,1);
 
@@ -56,7 +32,7 @@ double lps(double sig2) {
 
 mat mvrnorm(mat M, mat S) {
   int n = M.n_rows;
-  mat e = rnorms(n);
+  mat e = randn(n);
   return M + chol(S).t()*e;
 }
 // mvrnorm <- function(M,S,n=nrow(S)) M + t(chol(S)) %*% rnorm(n)
@@ -84,11 +60,6 @@ int main(int argc, char** argv) {
   //metropolis ratio:
   double q;
 
-  //current vals:
-  mat bc;
-  double sc;
-
-
   z.load("../data/dat.txt");
   n = z.n_rows;
   k = z.n_cols-1;
@@ -105,31 +76,33 @@ int main(int argc, char** argv) {
   bb.zeros();
   ss.ones();
 
+  //current vals:
+  mat bc = bb.row(0);
+  double sc = 1.0;
+
   cout << "Starting Metropolis:" <<endl;
   clock_t t1 = clock();
   for (int i=1; i<B; i++) {
     // Set Initial Values:
-    bb.row(i) = bb.row(i-1); 
-    ss.row(i) = ss.row(i-1); 
-
+    bb.row(i) = bb.row(i-1);
+    ss.at(i,0) = sc;
     bc = bb.row(i).t();
-    sc = as_scalar(ss.row(i));
 
     //Update Beta:
     candb = mvrnorm(bc,csb);
     q = ll(candb,sc)+lpb(candb) -ll(bc,sc)-lpb(bc);
-    if (q>log(runif())) {
+    if (q>log(randu())) {
       bc = candb;
       bb.row(i) = bc.t();
       accb++;
     }
 
     //Update sigma2:
-    cands = rnorm(sc,sqrt(css));
+    cands = randn()*sqrt(css)+sc;
     if (cands>0){
       q = ll(bc,cands)+lps(cands) -ll(bc,sc)-lps(sc);
-      if (q>log(runif())) {
-        ss.row(i) = cands;
+      if (q>log(randu())) {
+        sc = cands;
         accs++;
       }
     }
@@ -139,9 +112,6 @@ int main(int argc, char** argv) {
   clock_t t2 = clock();
   double elapsed = double(t2-t1) / CLOCKS_PER_SEC;
   cout << "Elapsed Time: " <<elapsed<<"s. \n"<<endl;
-
-  //cout <<"B: "<<B<<endl;
-  //cout << "MLE: \n" << mle << endl;
 
   cout << "Posterior Means Beta: \n" << 
           mean(bb.rows(90000,100000-1)).t()<<endl;
