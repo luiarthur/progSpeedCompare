@@ -8,6 +8,7 @@
 println("Loading packages...")
 using DataFrames
 using Distributions
+using Gadfly
 println("Finished loading packages...")
 
 const dat = readdlm("../data/dat.txt")
@@ -83,3 +84,7 @@ println("ŝ²:", mean(ss[90000:100000]),"\n")
 
 println("Acceptance rate for β̂: ",accb/B)
 println("Acceptance rate for ŝ²:",accs/B)
+
+plot(1:10001,ss[90000:100000])
+p1 = linspace(0,2*pi,1000); p2 = sin(3*p1 + 4*cos(2*p1))
+plot(p1, p2, color="red", linewidth=2.0, linestyle="--")
