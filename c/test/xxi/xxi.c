@@ -1,9 +1,35 @@
 //https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
 //https://www.gnu.org/software/gsl/manual/gsl-ref_14.html
+//http://search.cpan.org/~dsth/Math-GSL-Linalg-SVD-0.0.2/lib/Math/GSL/Linalg/SVD.pm#set_matrix
 
 #include <stdio.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
+
+gsl_vector_view vec (double* x, int n) {
+  return gsl_vector_view_array(x,n);
+}
+
+gsl_matrix_view mat (double* x, int n, int k) {
+  return gsl_matrix_view_array(x,n,k);
+}
+
+void t (gsl_matrix* x, gsl_matrix* xt) {
+  gsl_matrix_transpose_memcpy(x,xt);
+}
+
+void inv (gsl_matrix* x, gsl_matrix* xi, int n) {
+  gsl_permutation *P = gsl_permutation_alloc(n);
+  gsl_matrix*  A = gsl_matrix_alloc(n,n);
+  // set A???
+  int s;
+
+  gsl_linalg_LU_decomp(A,P,&s);
+  gsl_linalg_LU_invert(A,P,xi); // Key step!
+  
+  gsl_matrix_free(A);
+  gsl_permutation_free(P);
+}
 
 int main(void) {
   int n = 10;
@@ -34,15 +60,16 @@ int main(void) {
                      0.9408923};
 
 
-  gsl_vector_view y = gsl_vector_view_array(y_dat,n);
-  gsl_matrix_view X = gsl_matrix_view_array(X_dat,n,k);
+  gsl_vector_view y = vec(y_dat,n);
+  gsl_matrix_view X = mat(X_dat,n,k);
   //gsl_vector_fprintf(stdout,y,"%g");
 
   gsl_matrix *Xt  = gsl_matrix_alloc(k,n);
-  gsl_matrix_transpose_memcpy(Xt,&X.matrix);
-
+  t(Xt,&X.matrix);
   
   gsl_matrix_fprintf(stdout,Xt,"%g");
+  gsl_matrix_fprintf(stdout,&X.matrix,"%g");
+
   /*
   gsl_matrix *XX  = gsl_matrix_calloc(k,k);
   gsl_matrix *XXi = gsl_matrix_calloc(k,k);
