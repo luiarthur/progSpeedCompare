@@ -2,8 +2,8 @@
 //https://www.gnu.org/software/gsl/manual/gsl-ref_14.html
 
 #include <stdio.h>
-#include <gsl/gsl_linalg.h>
 #include <gsl/gsl_blas.h>
+#include <gsl/gsl_linalg.h>
 
 int main(void) {
   int n = 10;

@@ -25,13 +25,10 @@ const mle = XXi*X'y
 
 a = 1
 b = 1
-B = 100000
 s2=10
-csb = 4*XXi
-css = 1
-accb = 0
-accs = 0
-S = chol(csb)'
+csb=4XXi
+S=chol(csb)'
+css=1
 
 function ll(be::Array{Float64,1},sig2::Float64) 
   c = y-X*be
@@ -43,47 +40,56 @@ lps(sig2::Float64) = (a-1)*log(s2)-s2/b
 mvrnorm(M::Array{Float64,1}) = M+S*randn(k)
 
 
-bb = Array(Float64,(k,B))
-ss = Array(Float64,B)
+function mh(B=100000)
+  accb = 0; accs = 0
+  bb = Array(Float64,(k,B))
+  ss = Array(Float64,B)
 
-bcur = bb[:,1]
-scur = 1.0
-r = log(rand(B*2))
-rnorm = randn(B)
-println("Starting Metropolis...")
-#@time @fastmath for i in 1:B
-@time for i in 1:B
+  bcur = bb[:,1]
+  scur = 1.0
+  r = log(rand(B*2))
+  rnorm = randn(B)
 
-  # Update β̂: 
-  candb = mvrnorm(bcur)
-  q = ll(candb,scur)+lpb(candb) -ll(bcur,scur)-lpb(bcur)
-  if q[1]>r[i] 
-    bcur = candb
-    accb += 1
-  end
+  println("Starting Metropolis...")
+  #@time @fastmath for i in 1:B
+  @time for i in 1:B
 
-  # Update ŝ²:
-  #cands = rand(Normal(scur,sqrt(css)))
-  cands = rnorm[i]*sqrt(css)+scur
-  if cands>0
-    q = ll(bcur,cands)+lps(cands) -ll(bcur,scur)-lps(scur)
-    if q[1]>r[i+B]
-      scur = cands
-      accs += 1
+    # Update β̂: 
+    candb = mvrnorm(bcur)
+    q = ll(candb,scur)+lpb(candb) -ll(bcur,scur)-lpb(bcur)
+    if q[1]>r[i] 
+      bcur = candb
+      accb += 1
     end
-  end
 
-  @inbounds bb[:,i] = bcur
-  @inbounds ss[i]  = scur
+    # Update ŝ²:
+    #cands = rand(Normal(scur,sqrt(css)))
+    cands = rnorm[i]*sqrt(css)+scur
+    if cands>0
+      q = ll(bcur,cands)+lps(cands) -ll(bcur,scur)-lps(scur)
+      if q[1]>r[i+B]
+        scur = cands
+        accs += 1
+      end
+    end
 
-  if i%(B/10)==0 print("\r",round(100*i/B),"%") end
-end
-println("End of Metropolis.\n\n")
+    @inbounds bb[:,i] = bcur
+    @inbounds ss[i]  = scur
 
-println("β̂:", mean(bb[:,90000:100000],2),"\n")
-println("ŝ²:", mean(ss[90000:100000]),"\n")
+    if i%(B/10)==0 print("\r",round(100*i/B),"%") end
+  end # End of loops
+  println("End of Metropolis.\n\n")
+
+  return (bb,ss,accb,accs,B)
+end # End of mh function
+
+bb,ss,accb,accs,B = @time mh();
+
+println("β̂: \n", mean(bb[:,round(B*.9):end],2),"\n")
+println("ŝ²: ",  mean(ss[round(B*.9):end]),"\n")
 
 println("Acceptance rate for β̂: ",accb/B)
 println("Acceptance rate for ŝ²:",accs/B)
 
-plot(x=1:10000,y=ss[90000:99999], Geom.line,Theme( line_width=1pt, default_color=color("orange")))
+#plot(x=1:10000,y=ss[90000:99999], Geom.line,Theme( line_width=1pt, default_color=color("orange")))
+#plot(x=ss[90000:99999],Geom.histogram())
