@@ -1,14 +1,12 @@
 #= Install Packages if needed:
   Pkg.add("Distributions")
   Pkg.add("DataFrames")
+  Pkg.add("Gadfly")
 =#
 #ta = 1:size(X,2); (ta .!= 3) & (ta .!= 5)
 #blas_set_num_thread(8)
 
 println("Loading packages (20 seconds)...")
-#using DataFrames
-#using Distributions
-#using Gadfly
 using DataFrames, Distributions, Gadfly
 println("Finished loading packages...")
 
