@@ -1,12 +1,14 @@
 using Gadfly, DataFrames
-
-N=10
-x = [1:N]
-y = [x,x*2,x*3]
-xs = repeat([1:N],outer=[3])
-z = repeat(["1","2","3"], inner=[N])
-
-df = DataFrame(x=xs,y=y,z=z)
-plot(df, x="x", y="y",color="z", Geom.point, Geom.line)
-
-
+function myplot (x,y)
+  n,k = size(y)
+  xs = repeat(x,outer=[3])
+  ys = squeeze(reshape(y,n*k,1)',1)
+  zs = repeat([1:k],inner=[n])
+  df = DataFrame(x=xs,y=ys,z=zs)
+  plot(df,x="x",y="y",color="z",Geom.point,Geom.line)
+end
+#= Example:
+x = [1:10]
+y = [x x*2 x*3]
+myplot(x,y)
+=#
