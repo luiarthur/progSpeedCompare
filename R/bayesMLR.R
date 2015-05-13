@@ -66,21 +66,44 @@ times <- round(c(cpp.time,scala.time,julia.time,r.time)/cpp.time,3)
 
 code.len <- c(155,126,65,60)
 
-par(mfrow=c(3,1))
-barplot(times,ylab="seconds",names.arg=c("C++","Scala","Julia","R"),
-       legend.text=times,col=2:5, args.legend=list(x="topleft"),
-       main="Bayesian Multiple Linear Regression Speed Race")
-barplot(code.len,ylab="Lines of Code",names.arg=c("C++","Scala","Julia","R"),
-       legend.text=code.len,col=2:5, args.legend=list(x="topright"),
-       main="Bayesian Multiple Linear Regression Conciseness Test")
-plot(code.len,times,type="l",col="grey30",lwd=5,
-     main="Speed vs. Code Length Tradeoff",
-     xlab="Lines of Code (Codeing Time or Coding Efficiency)",
-     ylab="Execution Time")
-points(code.len,times,col=2:5,pch=20,cex=3)
+#par(mfrow=c(3,1))
+mc <- c("darkgoldenrod2","springgreen3","indianred1","cadetblue3")
+
+mar <- par("mar")
+par("mar"=c(3,1,4.1,1))
+svg("speed.svg")
+  barplot(times,names.arg=c("C++","Scala","Julia","R"),yaxt="n",col=mc,
+         #legend.text=times,args.legend=list(x="topleft",bty="n"),
+         main="Bayesian Multiple Linear Regression Speed (seconds)",border=NA)
+  xt <- seq(0,par("usr")[2],len=9)[c(2,4,6,8)] + c(.07,.05,0,-.05)
+  text(xt[1],times[1]-.5,times[1],col="white",cex=1.3)
+  text(xt[2],times[2]-.5,times[2],col="white",cex=1.3)
+  text(xt[3],times[3]-.5,times[3],col="white",cex=1.3)
+  text(xt[4],times[4]-.5,times[4],col="white",cex=1.3)
+dev.off()
+
+svg("lines.svg")
+  barplot(code.len,yaxt="n",names.arg=c("C++","Scala","Julia","R"),col=mc,
+         #legend.text=code.len,args.legend=list(x="topright",bty="n"),
+         main="Bayesian Multiple Linear Regression \n Lines of Code",border=NA)
+  text(xt[1],code.len[1]-5,code.len[1],col="white",cex=1.6)
+  text(xt[2],code.len[2]-5,code.len[2],col="white",cex=1.6)
+  text(xt[3],code.len[3]-5,code.len[3],col="white",cex=1.6)
+  text(xt[4],code.len[4]-5,code.len[4],col="white",cex=1.6)
+  par("mar"=mar)
+dev.off()
+
+svg("vs.svg")
+  plot(code.len,times,col="grey",type="l",
+       main="Speed vs. Code Length Tradeoff",
+       xlab="Lines of Code (Codeing Time or Coding Efficiency)",
+       ylab="Execution Time",
+       bty='n')
+  points(code.len,times,col=mc,pch=20,cex=4)
+dev.off()
 legend("topright",legend=c("BLQ: BEST","BRQ: Fast but Long",
                            "ULQ: Slow but Short","URQ: Slow and Long (WORST)"))
-par(mfrow=c(1,1))
+#par(mfrow=c(1,1))
 
 
 #print(paste0(100*acc.b/B,"%"))
