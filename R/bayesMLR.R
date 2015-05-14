@@ -93,10 +93,10 @@ svg("lines.svg")
   par("mar"=mar)
 dev.off()
 
-svg("vs2.svg",width=13.8,height=5)
+svg("vs.svg")
   plot(code.len,times,col="grey",type="l",
        main="Speed vs. Code Length Tradeoff",
-       xlab="Lines of Code (Codeing Time or Coding Efficiency)",
+       xlab="Lines of Code (Coding Time or Coding Efficiency)",
        ylab="Execution Time (seconds)",
        bty='n')
   points(code.len,times,col=mc,pch=20,cex=4)
