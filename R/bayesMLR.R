@@ -62,9 +62,9 @@ scala.time <- 7
 r.time <- r.time[3]
 cpp.time <- cpp.time[3]
 julia.time <- 9
-times <- round(c(cpp.time,scala.time,julia.time,r.time)/cpp.time,3)
+times <- round(c(cpp.time,scala.time,julia.time,r.time),3)
 
-code.len <- c(155,126,65,60)
+code.len <- c(124,117,75,56)
 
 #par(mfrow=c(3,1))
 mc <- c("darkgoldenrod2","springgreen3","indianred1","cadetblue3")
@@ -76,10 +76,10 @@ svg("speed.svg")
          #legend.text=times,args.legend=list(x="topleft",bty="n"),
          main="Bayesian Multiple Linear Regression Speed (seconds)",border=NA)
   xt <- seq(0,par("usr")[2],len=9)[c(2,4,6,8)] + c(.07,.05,0,-.05)
-  text(xt[1],times[1]-.5,times[1],col="white",cex=1.3)
-  text(xt[2],times[2]-.5,times[2],col="white",cex=1.3)
-  text(xt[3],times[3]-.5,times[3],col="white",cex=1.3)
-  text(xt[4],times[4]-.5,times[4],col="white",cex=1.3)
+  text(xt[1],times[1]-1.5,times[1],col="white",cex=1.3)
+  text(xt[2],times[2]-1.5,times[2],col="white",cex=1.3)
+  text(xt[3],times[3]-1.5,times[3],col="white",cex=1.3)
+  text(xt[4],times[4]-1.5,times[4],col="white",cex=1.3)
 dev.off()
 
 svg("lines.svg")
