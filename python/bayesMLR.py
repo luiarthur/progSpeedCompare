@@ -5,7 +5,7 @@ dat = np.genfromtxt('../data/dat.txt',delimiter=' ')
 
 y = dat[:,0]
 X = dat[:,1:11]
-k = X.shape[1]
+K = X.shape[1]
 n = y.shape[0]
 Xt = X.transpose()
 XXi = inv(np.dot(Xt,X))
@@ -26,9 +26,26 @@ def lpb(be):
 def lps(sig2):
     return (a-1) * np.log(sig2) - sig2 / b
 
-def mvrnorm(M,S,n=S.shape): # STOPPED HERE
-    return 0
+def mvrnorm(M,S): # STOPPED HERE
+    return M + np.dot( cholesky(S).transpose() , np.random.normal(0,1,M.shape[0]) )
 
 #ll(b_mle, s2) # test
 #lpb(b_mle) # test
-# lps(s2) # test
+#lps(s2) # test
+mvrnorm(b_mle, np.eye(b_mle.shape[0]))
+
+csb = 4 * XXi
+css = 1
+acc_b = 0
+acc_s = 0
+
+b_hat = np.zeros(shape=(B,K))
+s2_hat = np.ones(B)
+
+# Time this:
+for b in range(1,B):
+    b_hat[b] = b_hat[b-1]
+    s2_hat[b] = s2_hat[b-1]
+    #
+    # Update Beta:
+    
