@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import *
-import random
-import time
+import time # for timing program
+import sys # for printing to std out
 
 dat = np.genfromtxt('../data/dat.txt',delimiter=' ')
 
@@ -15,7 +15,7 @@ b_mle = np.dot( np.dot(XXi, Xt), y )
 
 a = 1
 b = 1
-B = 1e5
+B = 100000
 s2 = 10
 
 def ll(be, sig2):
@@ -67,11 +67,13 @@ for b in range(1,B):
         s2_hat[b] = cand
         acc_s += 1
     # 
-    if b%(B//100) == 0:
-      print "\r ", b
+    if b%(B//10) == 0:
+      print "\rProgress: %d%s" %(round(b*100/B),"%"),
+      sys.stdout.flush()
 
 end = time.time()
 
+print "\n"
 print "beta: ", b_hat[B*.9:B].mean(0)
 print "s2:   ", s2_hat[B*.9:B].mean()
 
@@ -79,6 +81,7 @@ print "acc_b:", acc_b / B
 print "acc_s:", acc_s / B
 
 elapsed_time = end - start # 23 seconds
-print elapsed_time
+print "Time Elapsed: ", elapsed_time, "\n"
+
 
 
