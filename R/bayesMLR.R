@@ -57,17 +57,18 @@ for (i in 2:B) {
 }
 )
 
-cpp.time<-system.time(system("cd ../C++; ./mlr"))
-scala.time <- 7
-r.time <- r.time[3]
-cpp.time <- cpp.time[3]
-julia.time <- 9
-times <- round(c(cpp.time,scala.time,julia.time,r.time),3)
+cpp.time <- system.time(system("cd ../C++; ./mlr")) #3.3
+scala.time <- 7.2
+r.time <- 51.2 #r.time[3]
+cpp.time <- 3.3 #cpp.time[3]
+julia.time <- 9.1
+python.time <- 23.5
+times <- round(c(cpp.time,scala.time,julia.time,python.time,r.time),3)
 
-code.len <- c(124,117,75,56)
+code.len <- c(124,117,75,84,56)
 
 #par(mfrow=c(3,1))
-mc <- c("darkgoldenrod2","springgreen3","indianred1","cadetblue3")
+mc <- c("darkgoldenrod2","springgreen3","indianred1","grey","cadetblue3")
 
 mar <- par("mar")
 par("mar"=c(3,1,4.1,1))
@@ -98,7 +99,7 @@ svg("vs.svg")
        main="Speed vs. Code Length Tradeoff",
        xlab="Lines of Code (Coding Time or Coding Efficiency)",
        ylab="Execution Time (seconds)",
-       bty='n')
+       bty='n',fg='grey')
   points(code.len,times,col=mc,pch=20,cex=4)
 dev.off()
 legend("topright",legend=c("BLQ: BEST","BRQ: Fast but Long",
