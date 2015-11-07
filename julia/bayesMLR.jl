@@ -7,7 +7,7 @@
 #blas_set_num_thread(8)
 
 println("Loading packages (20 seconds)...")
-using DataFrames, Distributions, Gadfly
+using DataFrames, Distributions#, Gadfly
 println("Finished loading packages...")
 
 const dat = readdlm("../data/dat.txt")
