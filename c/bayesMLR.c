@@ -6,9 +6,9 @@
 #include <gsl/gsl_rng.h>       // GNU Scientific Library
 #include <gsl/gsl_cdf.h>       // GNU Scientific Library
 #include <gsl/gsl_randist.h>   // GNU Scientific Library
-#include <gsl/gsl_linalg.h>   // GNU Scientific Library
+#include <gsl/gsl_linalg.h>    // GNU Scientific Library
 
-#include "/data/arthurll/arthurPackages/c/vector/vector.h"
+//#include "/data/arthurll/arthurPackages/c/vector/vector.h"
 
 
 #define pi 3.14159265358979323846
