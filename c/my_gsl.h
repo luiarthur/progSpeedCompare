@@ -4,7 +4,7 @@
 #include <gsl/gsl_randist.h>   // GNU Scientific Library
 #include <gsl/gsl_linalg.h>    // GNU Scientific Library
 #include <gsl/gsl_matrix.h>    // GNU Scientific Library
-
+#define pi 3.14159265358979323846
 
 // Reading Matrices ////////////////////////////////////////////////
 int countFileRows(char* filename) {

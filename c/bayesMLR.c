@@ -6,8 +6,6 @@
 #include <unistd.h>            // getpid
 #include "my_gsl.h"            // printing / reading matrices
 
-#define pi 3.14159265358979323846
-
 // Returns a random number b/w 0 & 1
 double runif() {
   return (double) rand() / (double) RAND_MAX;
