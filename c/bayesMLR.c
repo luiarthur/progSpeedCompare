@@ -1,7 +1,3 @@
-#include <stdio.h>             // standard input/output
-#include <stdlib.h>            // malloc
-#include <math.h>              // fabs, sqrt, etc.
-#include <time.h>              // time
 #include "my_gsl.h"            // printing / reading matrices
 
 // Returns a random number b/w 0 & 1

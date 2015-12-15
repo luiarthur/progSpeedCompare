@@ -1,5 +1,8 @@
 //https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
-#include <stdio.h>
+#include <stdio.h>             // standard input/output
+#include <stdlib.h>            // malloc
+#include <math.h>              // fabs, sqrt, etc.
+#include <time.h>              // time / set seed
 #include <gsl/gsl_rng.h>       // GNU Scientific Library
 #include <gsl/gsl_cdf.h>       // GNU Scientific Library
 #include <gsl/gsl_randist.h>   // GNU Scientific Library
