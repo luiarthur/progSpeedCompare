@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 
   gsl_matrix a = read_csv("tmp/a.dat",' ');
   gsl_matrix b = read_csv("tmp/b.dat",' ');
-  gsl_matrix c = prod(a,b);
-  printmatrix(c,"f2.txt");
+  //gsl_matrix c = prod(a,b);
+  //printmatrix(c,"f2.txt");
   return 0;
 }
