@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <gsl/gsl_matrix.h>
 
+// Reading Matrices ////////////////////////////////////////////////
 int countFileRows(char* filename) {
   FILE *fp;
   int count = 0;  // Line counter (result)
@@ -44,6 +45,15 @@ void readmatrix(gsl_matrix* m, char* filename) {
   fclose(f);
 }
 
+gsl_matrix read_csv(char* filename, char dlm) {
+  int n = countFileRows(filename);
+  int k = countFileCols(filename,dlm);
+  gsl_matrix* m = gsl_matrix_alloc(n,k);
+  readmatrix(m,filename);
+  return *m;
+}
+
+// Printing Matrix Info ////////////////////////////
 int nrow(gsl_matrix* m) {return m -> size1;}
 int ncol(gsl_matrix* m) {return m -> size2;}
 
@@ -59,12 +69,4 @@ void printmatrix(gsl_matrix m, char* filename) {
     fprintf (f, "\n");
   }
   fclose(f);
-}
-
-gsl_matrix read_csv(char* filename, char dlm) {
-  int n = countFileRows(filename);
-  int k = countFileCols(filename,dlm);
-  gsl_matrix* m = gsl_matrix_alloc(n,k);
-  readmatrix(m,filename);
-  return *m;
 }
