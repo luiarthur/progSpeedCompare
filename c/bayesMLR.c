@@ -53,9 +53,11 @@ double ll(gsl_matrix* b, double s2) {
 
 int main(int argc, char* argv[]) {
   gsl_matrix* z, X, y, XXi, Xt;
+  gsl_matrix* mle, bb, ss, csb;
   double a = 1;
   double b = 1;
   double s2 = 10;
+  double css = 1;
   int B = 100000;
 
   //int n = 1000;
