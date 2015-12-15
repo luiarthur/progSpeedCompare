@@ -1,3 +1,4 @@
+//https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
 #include <stdio.h>             // standard input/output
 #include <stdlib.h>            // malloc
 #include <math.h>              // fabs, sqrt, etc.
@@ -8,34 +9,9 @@
 #include <gsl/gsl_randist.h>   // GNU Scientific Library
 #include <gsl/gsl_linalg.h>    // GNU Scientific Library
 #include <gsl/gsl_matrix.h>    // GNU Scientific Library
-
-//https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
-
+#include "my_gsl.h"            // printing / reading matrices
 
 #define pi 3.14159265358979323846
-
-//////////////////////////////////////////////////////////////////
-void printmatrix(gsl_matrix* m, int n, int k, char* filename) {
-  FILE* f = fopen(filename, "w");
-  
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < k; j++) {
-      fprintf (f, "%f\t", gsl_matrix_get (m, i, j));
-    }
-    fprintf (f, "\n");
-  }
-  fclose(f);
-}
-
-void readmatrix(gsl_matrix* m, char* filename) {
-  FILE* f = fopen(filename, "r");
-  gsl_matrix_fscanf(f, m);
-  fclose(f);
-}
-
-int nrow(gsl_matrix* m) {return m -> size1;}
-int ncol(gsl_matrix* m) {return m -> size2;}
-//////////////////////////////////////////////////
 
 // Returns a random number b/w 0 & 1
 double runif() {
@@ -52,21 +28,18 @@ double ll(gsl_matrix* b, double s2) {
 }
 
 int main(int argc, char* argv[]) {
-  gsl_matrix* z, X, y, XXi, Xt;
-  gsl_matrix* mle, bb, ss, csb;
-  double a = 1;
-  double b = 1;
-  double s2 = 10;
-  double css = 1;
-  int B = 100000;
+  //gsl_matrix* z, X, y, XXi, Xt;
+  //gsl_matrix* mle, bb, ss, csb;
+  //double a = 1;
+  //double b = 1;
+  //double s2 = 10;
+  //double css = 1;
+  //int B = 100000;
 
-  //int n = 1000;
-  //int k = 11;
-  //gsl_matrix* m = gsl_matrix_alloc(n,k);
-  //readmatrix(m,"../data/dat.txt");
-  //printf("%d",nrow(m));
-  //printmatrix(m,n,k,"fout.txt");
-  //gsl_matrix_free(m);
+  char* filename = "../data/dat.txt";
+  gsl_matrix m = read_csv(filename,' '); // my_gsl
+  printf("%d%s%d\n",nrow(&m),"x",ncol(&m)); // my_gsl
+  printmatrix(m,"fout.txt"); // my_gsl
 
   return 0;
 }
