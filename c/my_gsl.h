@@ -8,6 +8,8 @@
 #include <gsl/gsl_randist.h>   // GNU Scientific Library
 #include <gsl/gsl_linalg.h>    // GNU Scientific Library
 #include <gsl/gsl_matrix.h>    // GNU Scientific Library
+#include <gsl/gsl_statistics.h>// GNU Scientific Library
+#include <gsl/gsl_blas.h>      // GSL Basic Linear Algebra
 #define pi 3.14159265358979323846
 
 // Reading Matrices ////////////////////////////////////////////////
@@ -80,4 +82,22 @@ void printmatrix(gsl_matrix m, char* filename) {
     fprintf (f, "\n");
   }
   fclose(f);
+}
+// Other Functions: /////////////////////////////////
+
+// Returns a random number b/w 0 & 1
+double runif() {
+  return (double) rand() / (double) RAND_MAX;
+}
+
+// https://www.gnu.org/software/gsl/manual/html_node/BLAS-Support.html#BLAS-Support
+// product of matrices
+gsl_matrix prod (gsl_matrix a, gsl_matrix b) {
+   // gsl_blas_dgemm: d=double, ge=general matrix, mm=matrix-matrix
+   int n = nrow(&a);
+   int k = ncol(&b);
+   gsl_matrix* c = gsl_matrix_alloc(n,k);
+   gsl_blas_dgemm(CblasNoTrans, CblasNoTrans,
+                  1.0, &a, &b, 0.0, &c);
+   return *c;
 }

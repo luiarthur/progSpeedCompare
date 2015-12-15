@@ -1,17 +1,14 @@
-#include "my_gsl.h"            // printing / reading matrices
+#include "my_gsl.h" // print & read matrices / other functions
 
-// Returns a random number b/w 0 & 1
-double runif() {
-  return (double) rand() / (double) RAND_MAX;
+double ll(gsl_matrix* b, double s2, gsl_matrix* y, gsl_matrix* X) {
+  int k = nrow(&b);
+  gsl_matrix* c = gsl_matrix_alloc(b,1);
+  gsl_matrix* out = gsl_matrix_alloc(b,1);
+
+  //c = y - X*b;
 }
 
 double gibbs(int* n, int* k, gsl_matrix* mle) {
-}
-
-
-double ll(gsl_matrix* b, double s2) {
-  gsl_matrix* c = gsl_matrix_alloc(1,1);
-  gsl_matrix* out;
 }
 
 int main(int argc, char* argv[]) {
@@ -28,5 +25,9 @@ int main(int argc, char* argv[]) {
   printf("%d%s%d\n",nrow(&m),"x",ncol(&m)); // my_gsl
   printmatrix(m,"fout.txt"); // my_gsl
 
+  gsl_matrix a = read_csv("tmp/a.dat",' ');
+  gsl_matrix b = read_csv("tmp/b.dat",' ');
+  gsl_matrix c = prod(a,b);
+  printmatrix(c,"f2.txt");
   return 0;
 }
