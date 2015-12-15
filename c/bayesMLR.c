@@ -9,10 +9,33 @@
 #include <gsl/gsl_linalg.h>    // GNU Scientific Library
 #include <gsl/gsl_matrix.h>    // GNU Scientific Library
 
-//#include "/data/arthurll/arthurPackages/c/vector/vector.h"
+//https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
 
 
 #define pi 3.14159265358979323846
+
+//////////////////////////////////////////////////////////////////
+void printmatrix(gsl_matrix* m, int n, int k, char* filename) {
+  FILE* f = fopen(filename, "w");
+  
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < k; j++) {
+      fprintf (f, "%f\t", gsl_matrix_get (m, i, j));
+    }
+    fprintf (f, "\n");
+  }
+  fclose(f);
+}
+
+void readmatrix(gsl_matrix* m, char* filename) {
+  FILE* f = fopen(filename, "r");
+  gsl_matrix_fscanf(f, m);
+  fclose(f);
+}
+
+int nrow(gsl_matrix* m) {return m -> size1;}
+int ncol(gsl_matrix* m) {return m -> size2;}
+//////////////////////////////////////////////////
 
 // Returns a random number b/w 0 & 1
 double runif() {
@@ -22,36 +45,26 @@ double runif() {
 double gibbs(int* n, int* k, gsl_matrix* mle) {
 }
 
-//void readmatrix(int n, int k, gsl_matrix* m, char* filename) {
-//  FILE* file=fopen(filename, "r");
-//  for (int i = 0; i < n; i++)
-//    for (int j = 0; j < k; j++)
-//      gsl_matrix_set (m, i, j, 0.23 + 100*i + j);
-//  
-//  //for (int i = 0; i < n; i++)  /* OUT OF RANGE ERROR */
-//  //  for (int j = 0; j < k; j++)
-//  //    printf ("m(%d,%d) = %g\n", i, j, 
-//  //            gsl_matrix_get (m, i, j));
-//}
+
+double ll(gsl_matrix* b, double s2) {
+  gsl_matrix* c = gsl_matrix_alloc(1,1);
+  gsl_matrix* out;
+}
 
 int main(int argc, char* argv[]) {
-  int n = 4;
-  int k = 2;
+  gsl_matrix* z, X, y, XXi, Xt;
+  double a = 1;
+  double b = 1;
+  double s2 = 10;
+  int B = 100000;
 
-  // initialize m
-  gsl_matrix* m = gsl_matrix_alloc(n,k);
+  //int n = 1000;
+  //int k = 11;
+  //gsl_matrix* m = gsl_matrix_alloc(n,k);
+  //readmatrix(m,"../data/dat.txt");
+  //printf("%d",nrow(m));
+  //printmatrix(m,n,k,"fout.txt");
+  //gsl_matrix_free(m);
 
-  // read data
-  FILE* f = fopen("test/dat.txt", "r");
-  gsl_matrix_fscanf(f, m);
-  fclose(f);
-
-  // write data
-  FILE* o = fopen("fout.txt", "w");
-  gsl_matrix_fprintf(o, m,"%f\t");
-  fclose(o);
-
-
-  // free memory
-  gsl_matrix_free(m);
+  return 0;
 }
