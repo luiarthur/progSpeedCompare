@@ -4,11 +4,6 @@
 #include <math.h>              // fabs, sqrt, etc.
 #include <time.h>              // time
 #include <unistd.h>            // getpid
-#include <gsl/gsl_rng.h>       // GNU Scientific Library
-#include <gsl/gsl_cdf.h>       // GNU Scientific Library
-#include <gsl/gsl_randist.h>   // GNU Scientific Library
-#include <gsl/gsl_linalg.h>    // GNU Scientific Library
-#include <gsl/gsl_matrix.h>    // GNU Scientific Library
 #include "my_gsl.h"            // printing / reading matrices
 
 #define pi 3.14159265358979323846

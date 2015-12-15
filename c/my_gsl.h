@@ -1,5 +1,10 @@
 #include <stdio.h>
-#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_rng.h>       // GNU Scientific Library
+#include <gsl/gsl_cdf.h>       // GNU Scientific Library
+#include <gsl/gsl_randist.h>   // GNU Scientific Library
+#include <gsl/gsl_linalg.h>    // GNU Scientific Library
+#include <gsl/gsl_matrix.h>    // GNU Scientific Library
+
 
 // Reading Matrices ////////////////////////////////////////////////
 int countFileRows(char* filename) {
