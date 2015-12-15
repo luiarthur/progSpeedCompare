@@ -1,4 +1,3 @@
-//https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
 #include <stdio.h>             // standard input/output
 #include <stdlib.h>            // malloc
 #include <math.h>              // fabs, sqrt, etc.
