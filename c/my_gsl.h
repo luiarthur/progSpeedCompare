@@ -53,6 +53,8 @@ void readmatrix(gsl_matrix* m, char* filename) {
 gsl_matrix read_csv(char* filename, char dlm) {
   int n = countFileRows(filename);
   int k = countFileCols(filename,dlm);
+  // Warning: In this way, memory is NOT freed by program, but by OS.
+  //          USE CAUTION WITH BIG DATA!!!
   gsl_matrix* m = gsl_matrix_alloc(n,k);
   readmatrix(m,filename);
   return *m;
