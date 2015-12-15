@@ -1,3 +1,4 @@
+//https://www.gnu.org/software/gsl/manual/html_node/Matrices.html
 #include <stdio.h>
 #include <gsl/gsl_rng.h>       // GNU Scientific Library
 #include <gsl/gsl_cdf.h>       // GNU Scientific Library
