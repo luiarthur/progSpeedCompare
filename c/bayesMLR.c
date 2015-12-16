@@ -75,27 +75,28 @@ int main(int argc, char* argv[]) {
   double cands;
   double sc = 1;
   gsl_vector_view v;
+  v = gsl_matrix_row(bb,0);
   bcur = mat_t(mat_row(bb,0));
 
   for (int b=1; b<B; b++) {
     printf("%d\r",b);
     
     //Set Previous Values:
-    //gsl_matrix_set_row(bb,b,&v);
+    gsl_matrix_set_row(bb,b,&v);
     gsl_matrix_set(ss,b,0,sc);
 
     //Update beta:
-    //candb = mvrnorm(bcur,cholS);
-    //q = ll(candb,sc,y,X) - 
-    //    ll( bcur,sc,y,X) +
-    //    lpb(candb,XXi,sc)-
-    //    lpb( bcur,XXi,sc);
+    candb = mvrnorm(bcur,cholS);
+    q = ll(candb,sc,y,X) - 
+        ll( bcur,sc,y,X) +
+        lpb(candb,XXi,sc)-
+        lpb( bcur,XXi,sc);
 
-    //if (q>log(runif())) {
-    //  v = gsl_matrix_column(candb,0);
-    //  gsl_matrix_set_col(bcur,0,&v);
-    //  accb += 1;
-    //}
+    if (q>log(runif())) {
+      v = gsl_matrix_column(candb,0);
+      gsl_matrix_set_col(bcur,0,&v);
+      accb += 1;
+    }
 
     //Update s2:
     cands = gsl_matrix_get(rnorm(1,sc,css),0,0);
