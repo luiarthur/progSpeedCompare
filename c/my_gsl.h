@@ -184,6 +184,31 @@ gsl_matrix* mat_t (gsl_matrix* X) {
   return Xt;
 }//tested
 
+
+gsl_matrix* mat_get(gsl_matrix* X, size_t r1, size_t r2, size_t c1, size_t c2) {
+  gsl_matrix_view y = gsl_matrix_submatrix(X,r1,c1,r2-r1+1,c2-c1+1);
+  gsl_matrix* Y = gsl_matrix_alloc(r2-r1+1,c2-c1+1);
+  gsl_matrix_memcpy(Y,&y.matrix);
+  return Y;
+} //tested
+
+gsl_matrix* mat_row(gsl_matrix* X, size_t r) {
+  int k = ncol(X);
+  gsl_matrix_view y = gsl_matrix_submatrix(X,r,0,1,k);
+  gsl_matrix* Y = gsl_matrix_alloc(1,k);
+  gsl_matrix_memcpy(Y,&y.matrix);
+  return Y;
+} //CHECK. compare gsl_matrix_get_row
+
+gsl_matrix* mat_col(gsl_matrix* X, size_t k) {
+  int r = nrow(X);
+  gsl_matrix_view y = gsl_matrix_submatrix(X,0,k,r,1);
+  gsl_matrix* Y = gsl_matrix_alloc(r,1);
+  gsl_matrix_memcpy(Y,&y.matrix);
+  return Y;
+} //CHECK. compare gsl_matrix_get_col
+
+
 gsl_matrix* mat_inv(gsl_matrix* X) {
   int n = nrow(X); // must be square!
 
@@ -340,4 +365,4 @@ gsl_matrix* rnorm(int n, double m, double s) {
   }
 
   return x;
-}
+} //tested
