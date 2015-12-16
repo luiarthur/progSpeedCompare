@@ -1,5 +1,6 @@
 // Can't figure out why this is so slow...
 // GSL is slow. 
+// https://github.com/Blei-Lab/diln/blob/master/gsl_wrapper.c
 #include "my_gsl.h" // print & read matrices / other functions
 
 
@@ -96,7 +97,7 @@ int main(int argc, char* argv[]) {
     //Update s2:
     cands = gsl_matrix_get(rnorm(1,sc,css,r),0,0);
     if (cands>0) {
-      //q = ll(bcur,cands,y,X)+lps(cands,a,b)-ll(bcur,sc,y,X)-lps(sc,a,b);
+      q = ll(bcur,cands,y,X)+lps(cands,a,b)-ll(bcur,sc,y,X)-lps(sc,a,b);
       if (q>log(runif())) {
         sc = cands;
         accs += 1;
