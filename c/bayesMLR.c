@@ -1,5 +1,6 @@
+// Can't figure out why this is so slow...
+// GSL is slow. 
 #include "my_gsl.h" // print & read matrices / other functions
-
 
 
 //lpb(be::Array{Float64,1}) = -be'XXi*be/2s2
@@ -25,23 +26,17 @@ double ll(gsl_matrix* be, double sig2, gsl_matrix* y, gsl_matrix* X) {
   return gsl_matrix_get(out,0,0);
 }
 
-gsl_matrix* mvrnorm(gsl_matrix* m, gsl_matrix* cholS) {
+gsl_matrix* mvrnorm(gsl_matrix* m, gsl_matrix* cholS, gsl_rng* r) {
   int n = nrow(m);
-  gsl_matrix* e = rnorm(n,0,1);
+  gsl_matrix* e = rnorm(n,0,1,r);
   gsl_matrix* Se = mat_prod( cholS, e ); 
   return mat_add(m, Se);
 }
 
 
 int main(int argc, char* argv[]) {
-  //gsl_matrix* z, X, y, XXi, Xt;
-  //gsl_matrix* mle, bb, ss, csb;
-  //double a = 1;
-  //double b = 1;
-  //double s2 = 10;
-  //double css = 1;
-  //int B = 100000;
-
+  //gsl_rng* r = gsl_rng_alloc (gsl_rng_mt19937);
+  gsl_rng* r = gsl_rng_alloc (gsl_rng_taus);
   char* filename = "../data/dat.txt";
   const gsl_matrix* dat = read_csv(filename,' ');
   int n = nrow(dat);
@@ -65,7 +60,7 @@ int main(int argc, char* argv[]) {
   //print_mat(mle); //correct!
 
   //gibbs
-  int B = 1000;
+  int B = 5000;
   int accb = 0;
   int accs = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k); gsl_matrix_set_zero(bb);
@@ -79,29 +74,29 @@ int main(int argc, char* argv[]) {
   bcur = mat_t(mat_row(bb,0));
 
   for (int b=1; b<B; b++) {
-    printf("%d\r",b);
+    //printf("%d\r",b);
     
     //Set Previous Values:
     gsl_matrix_set_row(bb,b,&v);
     gsl_matrix_set(ss,b,0,sc);
 
     //Update beta:
-    candb = mvrnorm(bcur,cholS);
-    q = ll(candb,sc,y,X) - 
-        ll( bcur,sc,y,X) +
-        lpb(candb,XXi,sc)-
-        lpb( bcur,XXi,sc);
+    //candb = mvrnorm(bcur,cholS,r);
+    //q = ll(candb,sc,y,X) - 
+    //    ll( bcur,sc,y,X) +
+    //    lpb(candb,XXi,sc)-
+    //    lpb( bcur,XXi,sc);
 
-    if (q>log(runif())) {
-      v = gsl_matrix_column(candb,0);
-      gsl_matrix_set_col(bcur,0,&v);
-      accb += 1;
-    }
+    //if (q>log(runif())) {
+    //  v = gsl_matrix_column(candb,0);
+    //  gsl_matrix_set_col(bcur,0,&v);
+    //  accb += 1;
+    //}
 
     //Update s2:
-    cands = gsl_matrix_get(rnorm(1,sc,css),0,0);
+    cands = gsl_matrix_get(rnorm(1,sc,css,r),0,0);
     if (cands>0) {
-      q = ll(bcur,cands,y,X)+lps(cands,a,b)-ll(bcur,sc,y,X)-lps(sc,a,b);
+      //q = ll(bcur,cands,y,X)+lps(cands,a,b)-ll(bcur,sc,y,X)-lps(sc,a,b);
       if (q>log(runif())) {
         sc = cands;
         accs += 1;
@@ -109,10 +104,17 @@ int main(int argc, char* argv[]) {
     }
   }
   
+  printf("\n");
+  printf("Acceptance beta: %d%s\n",accb*100/B,"%");
+  printf("Acceptance s2: %d%s\n",accs*100/B,"%");
   print_matrix(bb,"out/bb.dat");
   print_matrix(ss,"out/ss.dat");
 
   // Free memory:
+  gsl_matrix_free(bb);
+  gsl_matrix_free(ss);
+  gsl_matrix_free(bcur);
+  gsl_matrix_free(candb);
   gsl_matrix_free(dat);
   gsl_matrix_free(X);
   gsl_matrix_free(y);

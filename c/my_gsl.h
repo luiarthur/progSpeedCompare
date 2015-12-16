@@ -354,9 +354,9 @@ gsl_matrix* mat_chol(gsl_matrix* X) {
 } // So: mvrnorm <- function(M,S,n=nrow(S)) M + chol(S) %*% rnorm(n)
 
 //http://search.cpan.org/dist/Math-GSL/lib/Math/GSL/Randist.pm
-gsl_matrix* rnorm(int n, double m, double s) {
+gsl_matrix* rnorm(int n, double m, double s, gsl_rng* r) {
+  //gsl_rng* r = gsl_rng_alloc (gsl_rng_mt19937);
   gsl_matrix* x = gsl_matrix_alloc(n,1);
-  gsl_rng* r = gsl_rng_alloc (gsl_rng_mt19937);
   double d;
 
   for (int i=0; i<n; i++) {
