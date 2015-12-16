@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
   //print_mat(mle); //correct!
 
   //gibbs
-  int B = 100000;
+  int B = 1000;
   int accb = 0;
   int accs = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k); gsl_matrix_set_zero(bb);
@@ -108,6 +108,8 @@ int main(int argc, char* argv[]) {
     }
   }
   
+  print_matrix(bb,"out/bb.dat");
+  print_matrix(ss,"out/ss.dat");
 
   // Free memory:
   gsl_matrix_free(dat);
