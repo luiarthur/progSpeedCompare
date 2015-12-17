@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# -lm for math.h
+# -lsgl/-lgslcblas for gsl/*.h
+# -g for outputting line number when using valgrind
+# -w for warnings
+
+gcc  -std=c99 -o mlr bayesMLR.c -lgsl -lgslcblas -lm -w -g
+
+# Check for memory leaks:
+# valgrind --tool=memcheck --leak-check=yes ./mlr
