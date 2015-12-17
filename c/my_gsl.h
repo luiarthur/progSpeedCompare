@@ -93,8 +93,72 @@ void print_matrix_dims(gsl_matrix* m) {
   printf("%d%s%d\n",m->size1,"x",m->size2);
 }
 
-// Other Functions: /////////////////////////////////
+// Random Number Functions: /////////////////////////////////
 double runif() {
   // Returns a random number b/w 0 & 1
   return (double) rand() / (double) RAND_MAX;
 }
+
+void mvrnorm(gsl_vector* m, gsl_matrix* cholS, gsl_rng* r, gsl_vector* out) {
+  // vector addition, vector prod
+  // m + cholS * e
+
+  int n = m->size;
+  double tmp;
+  double e;
+  gsl_vector_set_zero(out); 
+  for (int j=0; j<n; j++) {
+    e = gsl_ran_gaussian(r,1.0);
+    for (int i=0; i<n; i++) {
+      tmp = gsl_vector_get(out,i) + gsl_vector_get(m,i) + 
+        gsl_matrix_get(cholS,i,j) * e;
+      gsl_vector_set(out,i,tmp);
+    }
+  }
+}
+
+
+// Linear Algebra Wrappers //////////////////////////////////
+// mm: matrix-matrix
+// mv: matrix-vector
+// ms: matrix-scalar
+void mm_prod(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) {
+}
+
+void mm_add(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) {
+}
+
+void mv_prod(gsl_matrix* A, gsl_vector* x, gsl_vector* out) {
+}
+
+void vv_add(gsl_vector* x, gsl_vector* y, gsl_vector *out) {
+  // sum two vectors
+  if (x->size != y->size)
+    error("Error in vv_add(): input vectors must have the same dimensionality");
+  else if (x->size != out->size || y->size != out->size)
+    error("Error in vv_add(): output vector has incorrect dimensions");
+
+  double tmp;
+  int n = x->size;
+
+  for (int i=0; i<n; i++) {
+    tmp = gsl_vector_get(x,i) + gsl_vector_get(y,i);
+    gsl_vector_set(out,i,tmp);
+  }
+}
+
+double vv_prod(gsl_vector* x, gsl_vector* y) {
+  // dot product
+  if (x->size != y->size)
+    error("Error in vv_prod(): input vectors must have the same dimensionality");
+
+  double out = 0;
+  int n = x->size;
+
+  for (int i=0; i<n; i++) {
+    out += gsl_vector_get(x,i)*gsl_vector_get(y,i);
+  }
+
+  return out;
+}
+
