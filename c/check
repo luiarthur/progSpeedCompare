@@ -1,3 +1,4 @@
 #!/bin/bash
 
-valgrind --tool=memcheck --leak-check=yes ./mlr
+valgrind --tool=memcheck --leak-check=yes --log-file=".valgrid.log" ./mlr
+
