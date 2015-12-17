@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
   gsl_matrix* M = gsl_matrix_alloc(n,k1);
   gsl_matrix* X = gsl_matrix_alloc(n,k);
   gsl_vector* y = gsl_vector_alloc(n);
+  gsl_matrix* XXi = gsl_matrix_alloc(k,k);
   gsl_matrix* csb = gsl_matrix_alloc(k,k);
   gsl_matrix* cholS = gsl_matrix_alloc(k,k);
 
@@ -62,31 +63,70 @@ int main(int argc, char* argv[]) {
   mat_sub(M,0,n-1,1,k,X);
   gsl_matrix_get_col(y,M,0);
 
-  xxi_m(X,csb);
+  xxi_m(X,XXi);
+  gsl_matrix_memcpy(csb,XXi);
   gsl_matrix_scale(csb,4);
+  chol(csb,cholS);
 
   int B = 100;
   int acc_b = 0;
   int acc_s = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k);
   gsl_vector* ss = gsl_vector_alloc(B);
+  gsl_matrix_set_zero(bb);
+  gsl_vector_set_all(ss,1);
   gsl_vector* candb = gsl_vector_alloc(k);
+  gsl_matrix* currb = gsl_vector_alloc(k);
+  double cands;
+  double sc = 1;
+  double css = 1;
+  double q;
+  double a = 1;
+  double b = 1;
 
   for (int b=1; b<B; b++) {
+
     // update beta
-    //mvrnorm(m,chols,r,v)
+    mvrnorm(currb,cholS,r,candb);
+    q = ll(candb,sc,y,X) - 
+        ll(currb,sc,y,X) +
+        lpb(candb,XXi,sc)-
+        lpb(currb,XXi,sc);
+
+    if (q>log(runif())) {
+      gsl_vector_memcpy(currb,candb);
+      acc_b += 1;
+    }
+
 
     // update s2
+    cands = sc + gsl_ran_gaussian(r,css);
+    if (cands>0) {
+      q = ll(currb,cands,y,X)+lps(cands,a,b)-ll(currb,sc,y,X)-lps(sc,a,b);
+      if (q>log(runif())) {
+        sc = cands;
+        acc_s += 1;
+      }
+    }
 
+    // set bb, ss
+    gsl_matrix_set_row(bb,b,currb);
+    gsl_vector_set(ss,b,sc);
+
+    printf("\r%d%s", (b+1)*100/B, "%");
   }
 
 
+  print_matrix(bb,"");
+  print_vector(ss,"");
   // Free Memory:
   gsl_matrix_free(cholS);
   gsl_vector_free(candb);
   gsl_vector_free(ss);
+  gsl_vector_free(currb);
   gsl_matrix_free(bb);
   gsl_matrix_free(csb);
+  gsl_matrix_free(XXi);
   gsl_vector_free(y);
   gsl_matrix_free(X);
   gsl_matrix_free(M);

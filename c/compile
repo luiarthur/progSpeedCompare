@@ -9,3 +9,4 @@ gcc  -std=c99 -o mlr bayesMLR.c -lgsl -lgslcblas -lm -w -g
 
 # Check for memory leaks:
 # valgrind --tool=memcheck --leak-check=yes ./mlr
+#./check

@@ -1,4 +1,9 @@
 #!/bin/bash
 
-valgrind --tool=memcheck --leak-check=yes --log-file=".valgrid.log" ./mlr
+file="bayesMLR.c"
+valgrind --tool=memcheck --leak-check=yes --log-file=".valgrind.log" ./mlr
+
+#cat .valgrind.log | grep --color "no leaks are possible"
+grep --color "no leaks are possible" .valgrind.log
+grep --color "$file\:[0-9]*" .valgrind.log
 
