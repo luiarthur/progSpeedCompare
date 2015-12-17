@@ -139,13 +139,16 @@ void mvrnorm(gsl_vector* m, gsl_matrix* cholS, gsl_rng* r, gsl_vector* out) {
 // mm: matrix-matrix
 // mv: matrix-vector
 // ms: matrix-scalar
+//  d: double real
+// ge: general matrix
 void mm_prod(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) {
 }
 
 void mm_add(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) {
 }
 
-void mv_prod(gsl_matrix* A, gsl_vector* x, gsl_vector* out) {
+void mv_prod(gsl_matrix* A, gsl_vector* x, double a, double b, gsl_vector* out) {
+
 }
 
 void vv_add(gsl_vector* x, gsl_vector* y, gsl_vector *out) {

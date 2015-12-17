@@ -1,7 +1,7 @@
 #include "my_gsl.h" // print & read matrices / other functions
 
 double lpb(gsl_vector* b, gsl_matrix* XXi, double s2) {
-  // b' XXi b / -(2*s2)
+  // b' XXi b / (-2*s2)
   int n = b->size;
   double out = 0;
   double rowSum;
@@ -9,7 +9,7 @@ double lpb(gsl_vector* b, gsl_matrix* XXi, double s2) {
   for (int i=0; i<n; i++) {
     rowSum = 0;
     for (int j=0; j<n; j++) {
-      rowSum += gsl_vector_get(b,j) * gsl_matrix_get(XXi,i,j);
+      rowSum += gsl_vector_get(b,j) * gsl_matrix_get(XXi,j,i);
     }
     out += rowSum * gsl_vector_get(b,i);
   }
@@ -17,7 +17,7 @@ double lpb(gsl_vector* b, gsl_matrix* XXi, double s2) {
   out = out / -(2*s2);
 
   return out;
-}
+} // I think this is good
 
 double lps(double s2, double a, double b) {
   return (a-1) * log(s2) - s2/b;
@@ -37,7 +37,7 @@ double ll(gsl_vector* b, double s2, gsl_vector* y, gsl_matrix* X) {
       Xbi += gsl_matrix_get(X,i,j) * gsl_vector_get(b,j);
     }
     yi = gsl_vector_get(y,i);
-    out += pow(yi - Xbi,2);
+    out += pow(yi - Xbi, 2);
   }
   
   out = out / (-2*s2) - n * log(s2) / 2;
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
   gsl_matrix_scale(csb,4);
   chol(csb,cholS);
 
-  int B = 100;
+  int B = 100000;
   int acc_b = 0;
   int acc_s = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k);
@@ -113,12 +113,12 @@ int main(int argc, char* argv[]) {
     gsl_matrix_set_row(bb,b,currb);
     gsl_vector_set(ss,b,sc);
 
-    printf("\r%d%s", (b+1)*100/B, "%");
+    //printf("\r%d%s", (b+1)*100/B, "%");
   }
 
 
-  print_matrix(bb,"");
-  print_vector(ss,"");
+  print_matrix(bb,"out/beta.dat");
+  print_vector(ss,"out/s2.dat");
   // Free Memory:
   gsl_matrix_free(cholS);
   gsl_vector_free(candb);
