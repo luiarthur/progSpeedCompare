@@ -147,8 +147,8 @@ void mm_prod(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) 
 void mm_add(gsl_matrix* A, gsl_matrix* B, double a, double b, gsl_matrix* out) {
 }
 
-void mv_prod(gsl_matrix* A, gsl_vector* x, double a, double b, gsl_vector* out) {
-
+void mv_prod(gsl_matrix* A, gsl_vector* x, double a, gsl_vector* out) {
+  gsl_blas_dgemv(CblasNoTrans,a,A,x,0.0,out);
 }
 
 void vv_add(gsl_vector* x, gsl_vector* y, gsl_vector *out) {

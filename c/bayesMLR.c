@@ -6,13 +6,10 @@ double lpb(gsl_vector* b, gsl_matrix* XXi, double s2) {
   double out = 0;
   double rowSum;
 
-  for (int i=0; i<n; i++) {
-    rowSum = 0;
-    for (int j=0; j<n; j++) {
-      rowSum += gsl_vector_get(b,j) * gsl_matrix_get(XXi,j,i);
-    }
-    out += rowSum * gsl_vector_get(b,i);
-  }
+  gsl_vector* XXib = gsl_vector_alloc(n);
+  mv_prod(XXi,b,1.0,XXib);
+  out = vv_prod(b,XXib);
+  gsl_vector_free(XXib);
 
   out = out / -(2*s2);
 
@@ -26,21 +23,31 @@ double lps(double s2, double a, double b) {
 double ll(gsl_vector* b, double s2, gsl_vector* y, gsl_matrix* X) {
   // c = y-X*be
   // c'c/(-2sig2)-n*log(sig2)/2 
-  double out = 0;
-  double yi;
-  double Xbi;
-  int n = b->size;
 
-  for (int i=0; i<n; i++) {
-    Xbi = 0;
-    for (int j=0; j<n; j++) {
-      Xbi += gsl_matrix_get(X,i,j) * gsl_vector_get(b,j);
-    }
-    yi = gsl_vector_get(y,i);
-    out += pow(yi - Xbi, 2);
-  }
+  //double out = 0;
+  //double yi;
+  //double Xbi;
+  //int n = b->size;
+
+  //for (int i=0; i<n; i++) {
+  //  Xbi = 0;
+  //  for (int j=0; j<n; j++) {
+  //    Xbi += gsl_matrix_get(X,i,j) * gsl_vector_get(b,j);
+  //  }
+  //  yi = gsl_vector_get(y,i);
+  //  out += pow(yi - Xbi, 2);
+  //}
   
-  out = out / (-2*s2) - n * log(s2) / 2;
+  //out = out / (-2*s2) - n * log(s2) / 2;
+  
+  int n = y->size;
+  double out;
+  gsl_vector* c = gsl_vector_alloc(n);
+  gsl_vector_memcpy(c,y);
+  gsl_blas_dgemv(CblasNoTrans,-1.0,X,b,1.0,c);
+  out = vv_prod(c,c) / (-2*s2) - n * log(s2) / 2;
+  gsl_vector_free(c);
+
   return out;
 }
 
@@ -68,7 +75,7 @@ int main(int argc, char* argv[]) {
   gsl_matrix_scale(csb,4);
   chol(csb,cholS);
 
-  int B = 100000;
+  int B = 100;
   int acc_b = 0;
   int acc_s = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k);
