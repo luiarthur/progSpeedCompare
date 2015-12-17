@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
 
   // Free Memory:
   gsl_matrix_free(M);
+  gsl_rng_free(r);
 
   return 0;
 }
