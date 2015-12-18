@@ -24,22 +24,6 @@ double ll(gsl_vector* b, double s2, gsl_vector* y, gsl_matrix* X) {
   // c = y-X*be
   // c'c/(-2sig2)-n*log(sig2)/2 
 
-  //double out = 0;
-  //double yi;
-  //double Xbi;
-  //int n = b->size;
-
-  //for (int i=0; i<n; i++) {
-  //  Xbi = 0;
-  //  for (int j=0; j<n; j++) {
-  //    Xbi += gsl_matrix_get(X,i,j) * gsl_vector_get(b,j);
-  //  }
-  //  yi = gsl_vector_get(y,i);
-  //  out += pow(yi - Xbi, 2);
-  //}
-  
-  //out = out / (-2*s2) - n * log(s2) / 2;
-  
   int n = y->size;
   double out;
   gsl_vector* c = gsl_vector_alloc(n);
