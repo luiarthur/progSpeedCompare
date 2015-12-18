@@ -14,7 +14,7 @@ double lpb(gsl_vector* b, gsl_matrix* XXi, double s2) {
   out = out / -(2*s2);
 
   return out;
-} // I think this is good
+}
 
 double lps(double s2, double a, double b) {
   return (a-1) * log(s2) - s2/b;
@@ -75,9 +75,6 @@ int main(int argc, char* argv[]) {
   double a = 1;
   double b = 1;
 
-  //printf("%f\n",ll(currb,1.0,y,X));
-  //print_matrix(cholS,"");
-
   for (int b=1; b<B; b++) {
 
     // update beta
@@ -105,7 +102,7 @@ int main(int argc, char* argv[]) {
     gsl_matrix_set_row(bb,b,currb);
     gsl_vector_set(ss,b,sc);
 
-    //printf("\r%d%s", (b+1)*100/B, "%");
+    printf("\r%d%s", (b+1)*100/B, "%");
   }
 
 
