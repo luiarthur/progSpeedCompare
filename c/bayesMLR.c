@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
   gsl_matrix_scale(csb,4);
   chol(csb,cholS);
 
-  int B = 100;
+  int B = 100000;
   int acc_b = 0;
   int acc_s = 0;
   gsl_matrix* bb = gsl_matrix_alloc(B,k);
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
   gsl_matrix_set_zero(bb);
   gsl_vector_set_all(ss,1);
   gsl_vector* candb = gsl_vector_alloc(k);
-  gsl_matrix* currb = gsl_vector_alloc(k);
+  gsl_vector* currb = gsl_vector_alloc(k);
   double cands;
   double sc = 1;
   double css = 1;
@@ -91,25 +91,26 @@ int main(int argc, char* argv[]) {
   double a = 1;
   double b = 1;
 
+  //printf("%f\n",ll(currb,1.0,y,X));
+  //print_matrix(cholS,"");
+
   for (int b=1; b<B; b++) {
 
     // update beta
     mvrnorm(currb,cholS,r,candb);
-    q = ll(candb,sc,y,X) - 
-        ll(currb,sc,y,X) +
-        lpb(candb,XXi,sc)-
-        lpb(currb,XXi,sc);
+    q = ll(candb,sc,y,X) + lpb(candb,XXi,sc)-
+        ll(currb,sc,y,X) - lpb(currb,XXi,sc);
 
     if (q>log(runif())) {
       gsl_vector_memcpy(currb,candb);
       acc_b += 1;
     }
 
-
     // update s2
     cands = sc + gsl_ran_gaussian(r,css);
-    if (cands>0) {
-      q = ll(currb,cands,y,X)+lps(cands,a,b)-ll(currb,sc,y,X)-lps(sc,a,b);
+    if (cands > 0) {
+      q = ll(currb,cands,y,X) + lps(cands,a,b) -
+          ll(currb,sc,y,X)    - lps(sc,a,b);
       if (q>log(runif())) {
         sc = cands;
         acc_s += 1;

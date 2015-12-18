@@ -122,16 +122,18 @@ void mvrnorm(gsl_vector* m, gsl_matrix* cholS, gsl_rng* r, gsl_vector* out) {
 
   int n = m->size;
   double tmp;
-  double e;
-  gsl_vector_set_zero(out); 
-  for (int j=0; j<n; j++) {
-    e = gsl_ran_gaussian(r,1.0);
-    for (int i=0; i<n; i++) {
-      tmp = gsl_vector_get(out,i) + gsl_vector_get(m,i) + 
-        gsl_matrix_get(cholS,i,j) * e;
-      gsl_vector_set(out,i,tmp);
+  gsl_vector* e = gsl_vector_alloc(n);
+
+  for (int i=0; i<n; i++) {
+    tmp = 0;
+    for (int j=0; j<n; j++) {
+      if (i==0) gsl_vector_set(e,j,gsl_ran_gaussian(r,1.0));
+      tmp += gsl_matrix_get(cholS,i,j) * gsl_vector_get(e,j);
     }
+    gsl_vector_set(out,i,gsl_vector_get(m,i) + tmp);
   }
+
+  gsl_vector_free(e);
 }
 
 
