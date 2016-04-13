@@ -5,4 +5,4 @@
 #               -g: outputting line number when using valgrind
 #               -w: inhibit all warning messages
 
-gcc -std=c99 -o mlr bayesMLR.c -L/home/luiarthur/Libs/gsl/lib -I/home/luiarthur/Libs/gsl/include -lgsl -lgslcblas -lm -w -g
+gcc -std=c99 -o mlr bayesMLR.c -L/home/luiarthur/Libs/gsl/lib -I/home/luiarthur/Libs/gsl/include -lgsl -lgslcblas -lm -w -g -O3

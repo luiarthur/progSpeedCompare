@@ -68,6 +68,8 @@ int main(int argc, char* argv[]) {
   gsl_vector_set_all(ss,1);
   gsl_vector* candb = gsl_vector_alloc(k);
   gsl_vector* currb = gsl_vector_alloc(k);
+  gsl_vector_set_zero(currb);
+  print_vector(currb,"");
   double cands;
   double sc = 1;
   double css = 1;
@@ -78,7 +80,9 @@ int main(int argc, char* argv[]) {
   for (int b=1; b<B; b++) {
 
     // update beta
+    if (b==1) print_vector(currb,"");
     mvrnorm(currb,cholS,r,candb);
+    if (b==1) print_vector(currb,"");
     q = ll(candb,sc,y,X) + lpb(candb,XXi,sc)-
         ll(currb,sc,y,X) - lpb(currb,XXi,sc);
 
