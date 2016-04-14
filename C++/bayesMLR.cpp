@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <ctime>
+#include <cblas.h>
 
 using namespace std;
 using namespace arma;
@@ -39,6 +40,7 @@ mat mvrnorm(mat M, mat S) {
 
 
 int main(int argc, char** argv) {
+  openblas_set_num_threads(1);
   mat mle;
 
   //posteriors:

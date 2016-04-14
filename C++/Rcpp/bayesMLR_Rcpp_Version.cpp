@@ -1,5 +1,6 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
+#include <cblas.h> //newline
 
 using namespace std;
 using namespace arma;
@@ -39,6 +40,8 @@ mat mvrnorm(mat M, mat S) {
 
 //[[Rcpp::export]]
 List bayesMLR(mat z) {
+
+  openblas_set_num_threads(1); // newline
   mat mle;
 
   //posteriors:
