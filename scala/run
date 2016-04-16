@@ -3,3 +3,6 @@
 echo "Starting..."
 scala -cp target/scala-2.11/mlr_2.11-0.1-SNAPSHOT.jar:$SCALA_HOME/lib/breeze_2.10-0.10.jar bayesMLR
 echo "Done."
+
+# or simply:
+# sbt ~run
