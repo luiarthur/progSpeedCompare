@@ -11,6 +11,7 @@ import scala.util.Random
 import breeze.linalg._
 import breeze.numerics._
 import breeze.stats.distributions._
+import breeze.stats.mean
 
 object bayesMLR{
   // Objects
@@ -44,15 +45,13 @@ object bayesMLR{
   // Acceptance Counters:
   var accb, accs = 0
 
-  // The Scala Cholesky funtion is too sensitive. It thinks
-  // matrices are not symmetric. It needs fixing.
-  // Also, the Scala Cholesky returns the lower triangle, instead of upper,
-  // which is the convention in R and C++ (armadillo).
   def chol(x: DenseMatrix[Double]): DenseMatrix[Double] = {
-    val up = upperTriangular(x)
-    val lo = up.t
-    val out = up + lo - diag(diag(x))
-    cholesky(out).t
+    // Make sure breeze cholesky returns upper triangle (like R and C++)
+    //val up = upperTriangular(x)
+    //val lo = up.t
+    //val out = up + lo - diag(diag(x))
+    //cholesky(out).t
+    cholesky(x).t
   }
 
   def ll(be: DenseVector[Double], sig2: Double): Double = {
@@ -99,7 +98,7 @@ object bayesMLR{
         q = ll(cb,sc)+lpb(cb) - ll(bc,sc)-lpb(bc)
         if (q > r(i)) {
           bc = cb
-          accb = accb+1     
+          accb += 1
         }
 
         //Update sigma2:
@@ -108,19 +107,19 @@ object bayesMLR{
           q = ll(bc,cs)+lps(cs) -ll(bc,sc)-lps(sc) 
           if (q > r(i+B)) {
             sc = cs
-            accs = accs + 1
+            accs += 1
           }
         }
         //print("\rProgress: "+round(i*100.0/B,0)+"%")//This slows down by half the time
       } // End of Metropolis
     val t2 = System.currentTimeMillis / 1000.0
-    println("Runtime: "+round(t2-t1,3)+"\n")
     println("Acceptance beta: "+100.0*accb/B+"%")
     println("Acceptance sig2: "+100.0*accs/B+"%\n")
     println("Posterior sig2: "+round(sum(ss(90000 to 99999)) / (B*.1)))
     println("Posterior beta:")
     //(sum(bb(::,*)).t / (B*1.0)).toArray.foreach(s => println("\t"+s))
-    (sum(bb(90000 to 99999,*)).t / (B*.1)).toArray.foreach(s => println("\t"+s))
+    (mean(bb(90000 to 99999,*)).t).foreach(s => println("\t"+s))
+    println("Gibbs Time: "+round(t2-t1,3)+"s\n")
     println()
   }
 }
