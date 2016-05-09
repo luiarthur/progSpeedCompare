@@ -92,7 +92,7 @@ object bayesMLR{
 
     println("Posterior mean sig2: " + sig2_post.reduce(_+_) / keep)
     println("Posterior mean beta:")
-    (beta_post.reduce(_+_) / dvec.fill(k)(keep*1.0)).foreach(println)
+    (beta_post.reduce(_+_) / dvec.fill(k)(keep.doubleValue)).foreach(println)
 
     println("Gibbs Time: "+ round( (t2-t1)*10 ) / 10.0 +"s\n")
   }
