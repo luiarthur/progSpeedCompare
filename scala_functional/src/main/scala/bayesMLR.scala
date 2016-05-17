@@ -42,8 +42,7 @@ object bayesMLR{
 
   def ll(be: dvec[Double], sig2: Double): Double = {
     val c = y - X * be
-    val out = (c.t*c/sig2 + n*log(sig2)) / -2.0
-    out
+    (c.t*c/sig2 + n*log(sig2)) / -2.0
   }
 
   def lpb(be: dvec[Double]): Double = be.t*XXi*be / (-2.0*s2)
