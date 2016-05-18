@@ -79,8 +79,8 @@ end # End of mh function
 
 bb,ss,accb,accs,B = @time mh();
 
-println("β̂: \n", mean(bb[:,round(B*.9):end],2),"\n")
-println("ŝ²: ",  mean(ss[round(B*.9):end]),"\n")
+println("β̂: \n", mean(bb[:,Int(B*.9):end],2),"\n")
+println("ŝ²: ",  mean(ss[Int(B*.9):end]),"\n")
 
 println("Acceptance rate for β̂: ",accb/B)
 println("Acceptance rate for ŝ²:",accs/B)

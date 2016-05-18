@@ -55,13 +55,13 @@ object bayesMLR{
   def update_beta(curr_beta: dvec[Double], curr_sig2: Double): dvec[Double] = {
     val cand_beta = mvrnorm(curr_beta,csb)
     val q = ll(cand_beta,curr_sig2)+lpb(cand_beta) - ll(curr_beta,curr_sig2)-lpb(curr_beta)
-    if (q > U.nextDouble) { accb += 1; cand_beta } else curr_beta
+    if (q > log(U.nextDouble)) { accb += 1; cand_beta } else curr_beta
   }
   def update_sig2(curr_beta: dvec[Double], curr_sig2: Double): Double = {
     val cand_sig2 = G.draw * sqrt(css) + curr_sig2
     if (cand_sig2 > 0) {
       val q = ll(curr_beta,cand_sig2)+lps(cand_sig2) - ll(curr_beta,curr_sig2)-lps(curr_sig2)
-      if (q > U.nextDouble) {accs += 1; cand_sig2} else curr_sig2
+      if (q > log(U.nextDouble)) {accs += 1; cand_sig2} else curr_sig2
     } else curr_sig2
   }
 
