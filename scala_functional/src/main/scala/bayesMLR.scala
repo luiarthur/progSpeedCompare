@@ -73,7 +73,7 @@ object bayesMLR {
 
     println("Acceptance beta: " + 100.0 * accb/B+"%")
     println("Acceptance sig2: " + 100.0 * accs/B+"%\n")
-    println("Posterior mean sig2: " + sig2_post.reduce(_+_) / keep)
+    println("Posterior mean sig2: " + sig2_post.map(x => x / keep.toDouble).reduce(_+_))
     println("Posterior mean beta:" )
     (beta_post.map(x => x / keep.toDouble).reduce(_+_)).foreach(println)
   }
