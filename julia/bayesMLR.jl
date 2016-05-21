@@ -1,11 +1,4 @@
-#= Install Packages if needed:
-  Pkg.add("Distributions")
-  Pkg.add("DataFrames")
-  Pkg.add("Gadfly")
-=#
-#ta = 1:size(X,2); (ta .!= 3) & (ta .!= 5)
-#blas_set_num_thread(8)
-
+blas_set_num_threads(1) # because small matrices
 println("Loading packages (20 seconds)...")
 using DataFrames, Distributions#, Gadfly
 println("Finished loading packages...")
@@ -14,7 +7,7 @@ const dat = readdlm("../data/dat.txt")
 n,k1 = size(dat)
 const k = k1-1
 
-const y =dat[:,1]
+const y = dat[:,1]
 const X = dat[:,2:end]
 
 const XXi = inv(X'X)
@@ -23,10 +16,10 @@ const mle = XXi*X'y
 
 a = 1
 b = 1
-s2=10
-csb=4XXi
-S=chol(csb)'
-css=1
+s2 = 10
+csb = 4XXi
+S = chol(csb)'
+css = 1
 
 function ll(be::Array{Float64,1},sig2::Float64) 
   c = y-X*be
@@ -37,7 +30,6 @@ lpb(be::Array{Float64,1}) = -be'XXi*be/2s2
 lps(sig2::Float64) = (a-1)*log(s2)-s2/b 
 mvrnorm(M::Array{Float64,1}) = M+S*randn(k)
 
-
 function mh(B=100000)
   accb = 0; accs = 0
   bb = Array(Float64,(k,B))
@@ -46,7 +38,6 @@ function mh(B=100000)
   scur = 1.0
 
   println("Starting Metropolis...")
-  #@time @fastmath for i in 1:B
   @time for i in 1:B
 
     # Update β̂: 
@@ -85,5 +76,5 @@ println("ŝ²: ",  mean(ss[Int(B*.9):end]),"\n")
 println("Acceptance rate for β̂: ",accb/B)
 println("Acceptance rate for ŝ²:",accs/B)
 
-#plot(x=1:10000,y=ss[90000:99999], Geom.line,Theme( line_width=1pt, default_color=color("orange")))
+#plot(x=1:10000,y=ss[90000:99999], Geom.line,Theme( line_width=1pt, default_color=colorant"orange"))
 #plot(x=ss[90000:99999],Geom.histogram())
