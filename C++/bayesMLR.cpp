@@ -31,10 +31,12 @@ double lps(double sig2) {
   return (a-1) * log(sig2) - sig2/b;
 }
 
-mat mvrnorm(mat M, mat S) {
+//mat mvrnorm(mat M, mat S) {
+mat mvrnorm(mat M, mat csb) {
   int n = M.n_rows;
   mat e = randn(n);
-  return M + chol(S).t()*e;
+  //return M + chol(S).t()*e;
+  return M + csb*e;
 }
 // mvrnorm <- function(M,S,n=nrow(S)) M + t(chol(S)) %*% rnorm(n)
 
@@ -70,7 +72,8 @@ int main(int argc, char** argv) {
   X = z.cols(1,k); // columns 2 to k+1 of z
   Xt = X.t();
   XXi = (Xt*X).i();
-  csb = 4*XXi;
+  //csb = 4*XXi;
+  csb = chol(4*XXi).t();
   mle = XXi * Xt * y;
   
   bb.set_size(B,k);
