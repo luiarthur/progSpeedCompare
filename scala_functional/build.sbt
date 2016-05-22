@@ -11,5 +11,5 @@ resolvers ++= Seq(
   "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.10.4"
 cancelable in Global := true
