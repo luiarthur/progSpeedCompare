@@ -1,4 +1,4 @@
-blas_set_num_threads(1) # because small matrices
+BLAS.set_num_threads(1) # because small matrices
 println("Loading packages (20 seconds)...")
 using DataFrames, Distributions#, Gadfly
 println("Finished loading packages...")
@@ -10,7 +10,8 @@ const k = k1-1
 const y = dat[:,1]
 const X = dat[:,2:end]
 
-const XXi = inv(X'X)
+sym(M::Matrix{Float64}) = (M' + M) / 2
+const XXi = sym(inv(X'X))
 const s = 100
 const mle = XXi*X'y
 
@@ -23,10 +24,10 @@ css = 1
 
 function ll(be::Array{Float64,1},sig2::Float64) 
   c = y-X*be
-  c'c/(-2sig2)-n*log(sig2)/2 
+  (c'c/(-2sig2)-n*log(sig2)/2 )[1]
 end
 
-lpb(be::Array{Float64,1}) = -be'XXi*be/2s2
+lpb(be::Array{Float64,1}) = (-be'XXi*be/2s2)[1]
 lps(sig2::Float64) = (a-1)*log(s2)-s2/b 
 mvrnorm(M::Array{Float64,1}) = M+S*randn(k)
 
@@ -43,7 +44,7 @@ function mh(B=100000)
     # Update β̂: 
     candb = mvrnorm(bcur)
     q = ll(candb,scur)+lpb(candb) -ll(bcur,scur)-lpb(bcur)
-    if q[1]>log(rand())
+    if q>log(rand())
       bcur = candb
       accb += 1
     end
@@ -52,7 +53,7 @@ function mh(B=100000)
     cands = rand(Normal(scur,sqrt(css)))
     if cands>0
       q = ll(bcur,cands)+lps(cands) -ll(bcur,scur)-lps(scur)
-      if q[1]>log(rand())
+      if q>log(rand())
         scur = cands
         accs += 1
       end
