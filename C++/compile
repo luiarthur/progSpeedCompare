@@ -2,6 +2,8 @@
 
 g++ bayesMLR.cpp -o mlr -O2 -I$ARMA_HOME -DARMA_DONT_USE_WRAPPER -I$OPENBLAS_INCLUDE -L$OPENBLAS_HOME -lopenblas -llapack -lgfortran -Wall
 
+# if -llapack not found, add symbolic link of libblas.a in OPENBLAS_HOME which points to libopenblas_xxx.dev.a
+
 #g++ bayesMLR.cpp -o mlr -O2 -I $ARMA_HOME -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran -Wall
 #g++ bayesMLR.cpp -o mlr -O2 -I /data/arthurll/armadillo/include -DARMA_DONT_USE_WRAPPER -lblas -llapack -lgfortran 
 
