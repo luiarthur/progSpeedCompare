@@ -19,7 +19,7 @@ double ll(mat be, double sig2) {
 
   c = y-X*be;
   out = (c.t()*c / sig2 + n*log(sig2))/-2;
-  
+
   return as_scalar(out);
 }
 
@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
   mat mle;
 
   //posteriors:
-  mat bb; 
+  mat bb;
   mat ss;
 
   // candidate sigma:
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
   //candidate values:
   mat candb;
   double cands;
-  
+
   //acceptance rates:
   int accb = 0;
   int accs = 0;
@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
   //csb = 4*XXi;
   csb = chol(4*XXi).t();
   mle = XXi * Xt * y;
-  
+
   bb.set_size(B,k);
   ss.set_size(B,1);
   bb.zeros();
@@ -111,14 +111,14 @@ int main(int argc, char** argv) {
         accs++;
       }
     }
-    
+
     cout << "\r" << i*100/B <<"%";
   }
   clock_t t2 = clock();
   double elapsed = double(t2-t1) / CLOCKS_PER_SEC;
   cout << "Elapsed Time: " <<elapsed<<"s. \n"<<endl;
 
-  cout << "Posterior Means Beta: \n" << 
+  cout << "Posterior Means Beta: \n" <<
           mean(bb.rows(90000,100000-1)).t()<<endl;
   cout << "Posterior Mean Sigma2: \n" <<
           mean(ss.rows(90000,100000-1))<<endl;
