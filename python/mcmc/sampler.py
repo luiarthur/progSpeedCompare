@@ -1,8 +1,8 @@
-#from numba import jit
+#import numba
 import numpy as np
 import mcmc
 
-#@jit
+#@numba.jit
 def sampler(y, X, cs_sig2, CS_beta, init, B, burn, printEvery, a=2, b=1, s2=100):
     n = len(y)
 
